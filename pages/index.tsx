@@ -1,8 +1,8 @@
-import { Button } from "@mui/material";
-import type { NextPage } from "next";
-import Head from "next/head";
-import Image from "next/image";
-import styles from "../styles/Home.module.css";
+import React from 'react';
+import { Button } from '@mui/material';
+import type { NextPage } from 'next';
+import Head from 'next/head';
+import styles from '../styles/Home.module.css';
 
 const Home: NextPage = () => {
   return (
@@ -20,11 +20,7 @@ const Home: NextPage = () => {
       </main>
 
       <footer className={styles.footer}>
-        <a
-          href="https://lolei.dev"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
+        <a href="https://lolei.dev" target="_blank" rel="noopener noreferrer">
           Powered by \o/
         </a>
       </footer>
