@@ -1,0 +1,14 @@
+.header,
+.footer {
+  min-height: 1rem;
+  text-align: center;
+}
+
+.main {
+  height: 100%;
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}

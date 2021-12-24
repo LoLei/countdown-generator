@@ -10,13 +10,15 @@
     "pretty:check": "prettier --check ."
   },
   "dependencies": {
-    "@emotion/react": "^11.7.1",
-    "@emotion/styled": "^11.6.0",
     "@fontsource/roboto": "^4.5.1",
-    "@mui/material": "^5.2.4",
+    "@mantine/core": "^3.4.3",
+    "@mantine/dates": "^3.4.3",
+    "@mantine/hooks": "^3.4.3",
+    "dayjs": "^1.10.7",
     "next": "12.0.7",
     "react": "17.0.2",
-    "react-dom": "17.0.2"
+    "react-dom": "17.0.2",
+    "sass": "^1.45.1"
   },
   "devDependencies": {
     "@types/node": "17.0.0",
