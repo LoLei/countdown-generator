@@ -2,8 +2,9 @@ html,
 body {
   padding: 0;
   margin: 0;
-  font-family: -apple-system, "Open Sans", "DejaVu Sans", BlinkMacSystemFont, Segoe UI, Oxygen, Ubuntu, Cantarell,
-    Fira Sans, Roboto, Droid Sans, Helvetica Neue, sans-serif;
+  font-family: -apple-system, 'Open Sans', 'DejaVu Sans', BlinkMacSystemFont,
+    Segoe UI, Oxygen, Ubuntu, Cantarell, Fira Sans, Roboto, Droid Sans,
+    Helvetica Neue, sans-serif;
 }
 
 #__next {

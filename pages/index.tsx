@@ -1,8 +1,8 @@
-import React from 'react';
+import { Button, Card, Container, Paper, Text } from '@mantine/core';
 import type { NextPage } from 'next';
 import Head from 'next/head';
+import React from 'react';
 import styles from '../styles/Home.module.scss';
-import { Button } from '@mantine/core';
 
 const Home: NextPage = () => {
   return (
@@ -14,17 +14,26 @@ const Home: NextPage = () => {
       </Head>
 
       <header className={styles.header}>
-        <span>header</span>
+        <Text>This is the header</Text>
       </header>
 
       <main className={styles.main}>
-        <Button>Create Countdown</Button>
+        <Container>
+          <Card>Test Card</Card>
+          <Button>Create Countdown</Button>
+          <Paper>Test Paper</Paper>
+        </Container>
       </main>
 
       <footer className={styles.footer}>
-        <a href="https://lolei.dev" target="_blank" rel="noopener noreferrer">
+        <Text
+          component="a"
+          href="https://lolei.dev"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
           Powered by &lt;3
-        </a>
+        </Text>
       </footer>
     </>
   );
