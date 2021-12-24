@@ -1,21 +1,49 @@
-import React from 'react';
-import { Button, Card, Container, Paper, Text, Title } from '@mantine/core';
+import {
+  Button,
+  Card,
+  Container,
+  createStyles,
+  Paper,
+  Text,
+  Title,
+} from '@mantine/core';
 import type { NextPage } from 'next';
 import Head from 'next/head';
-import styles from '../styles/Home.module.scss';
+import React from 'react';
+
+const useStyles = createStyles({
+  header: {
+    minHeight: '1rem',
+    textAlign: 'center',
+    paddingTop: '0.5rem',
+  },
+  main: {
+    display: 'flex',
+    flex: 1,
+    flexDirection: 'column',
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  footer: {
+    minHeight: '1rem',
+    textAlign: 'center',
+  },
+});
 
 const Home: NextPage = () => {
+  const { classes } = useStyles();
+
   return (
     <>
       <Head>
         <title>Countdown Generator</title>
       </Head>
 
-      <header className={styles.header}>
+      <header className={classes.header}>
         <Title order={2}>Countdown Generator</Title>
       </header>
 
-      <main className={styles.main}>
+      <main className={classes.main}>
         <Container>
           <Card>Test Card</Card>
           <Button>Create Countdown</Button>
@@ -23,7 +51,7 @@ const Home: NextPage = () => {
         </Container>
       </main>
 
-      <footer className={styles.footer}>
+      <footer className={classes.footer}>
         <Text
           component="a"
           href="https://lolei.dev"

@@ -1,7 +1,6 @@
 import { Global, MantineProvider } from '@mantine/core';
 import type { AppProps } from 'next/app';
 import React from 'react';
-import '../styles/globals.css';
 
 function MyApp({ Component, pageProps }: AppProps) {
   return (
@@ -16,12 +15,12 @@ function MyApp({ Component, pageProps }: AppProps) {
       }}
     >
       <Global
-        // Other global styles in globals.css TODO: Unify
         styles={(theme) => ({
-          '*, *::before, *::after': {
-            boxSizing: 'border-box',
+          'html, body': {
+            padding: 0,
+            margin: 0,
+            fontFamily: 'Roboto, Open Sans, DejaVu Sans, sans-serif',
           },
-
           body: {
             ...theme.fn.fontStyles(),
             backgroundColor:
@@ -29,6 +28,18 @@ function MyApp({ Component, pageProps }: AppProps) {
             color:
               theme.colorScheme === 'dark' ? theme.colors.dark[0] : theme.black,
             lineHeight: theme.lineHeight,
+          },
+          '#__next': {
+            minHeight: '100vh',
+            display: 'grid',
+            gridTemplateRows: 'auto 1fr auto',
+          },
+          a: {
+            color: 'inherit',
+            textDecoration: 'none',
+          },
+          '*, *::before, *::after': {
+            boxSizing: 'border-box',
           },
         })}
       />
