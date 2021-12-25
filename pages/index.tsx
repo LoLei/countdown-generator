@@ -24,6 +24,9 @@ const useStyles = createStyles({
     justifyContent: 'center',
     alignItems: 'center',
   },
+  mainContainer: {
+    width: '100%',
+  },
   footer: {
     minHeight: '1rem',
     textAlign: 'center',
@@ -31,6 +34,7 @@ const useStyles = createStyles({
   titleNew: {
     textAlign: 'center',
   },
+  buttonNew: {},
   titleOld: {
     textAlign: 'center',
   },
@@ -69,14 +73,19 @@ const Home: NextPage = () => {
       </header>
 
       <main className={classes.main}>
-        <Container>
+        <Container className={classes.mainContainer} size="sm">
           <Group position="center" direction="column" grow>
             <Card shadow="sm" padding="sm">
-              <Group position="center" direction="column" grow spacing="xs">
+              <Group position="center" direction="column" spacing="xs">
                 <Title className={classes.titleNew} order={4}>
                   New Countdown
                 </Title>
-                <Button>Create Countdown</Button>
+                <Button
+                  variant="gradient"
+                  gradient={{ from: 'orange', to: 'red' }}
+                >
+                  Create Countdown
+                </Button>
               </Group>
             </Card>
             <Card shadow="sm" padding="sm">
