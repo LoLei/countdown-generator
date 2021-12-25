@@ -21,7 +21,7 @@ export function getAllCountdownIds() {
   return mockCountdowns.map((countdown) => {
     return {
       params: {
-        id: countdown.id,
+        id: countdown.id.toString(),
       },
     };
   });
