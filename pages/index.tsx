@@ -34,7 +34,6 @@ const useStyles = createStyles({
   titleNew: {
     textAlign: 'center',
   },
-  buttonNew: {},
   titleOld: {
     textAlign: 'center',
   },
