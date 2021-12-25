@@ -28,5 +28,8 @@ export function getAllCountdownIds() {
 }
 
 export function getCountdownById(id: number): ICountdown | undefined {
-  return mockCountdowns.find((it) => it.id === id);
+  console.debug({ id });
+  const res = mockCountdowns.find((it) => it.id === id);
+  console.debug({ res });
+  return res;
 }

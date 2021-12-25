@@ -9,9 +9,10 @@ import {
 const CountdownPage = (props: IProps): JSX.Element => {
   return (
     <>
+      Hellooo!
       {props.countdown.id}
-      {props.countdown.dateCreated}
-      {props.countdown.dateDue}
+      {props.countdown.dateCreated.toDateString()}
+      {props.countdown.dateDue.toDateString()}
     </>
   );
 };
@@ -40,6 +41,7 @@ export async function getStaticProps(context: GetServerSidePropsContext) {
     };
   }
   const countdown = getCountdownById(parseInt(id as string));
+  console.debug({ countdown });
   return {
     props: {
       countdown,
