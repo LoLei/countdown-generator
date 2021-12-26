@@ -6,8 +6,8 @@
     "build": "next build",
     "start": "next start",
     "lint": "eslint . --ext .js,.jsx,.ts,.tsx",
-    "pretty": "prettier --write .",
-    "pretty:check": "prettier --check ."
+    "fmt": "prettier --write .",
+    "fmt:check": "prettier --check ."
   },
   "dependencies": {
     "@fontsource/roboto": "^4.5.1",

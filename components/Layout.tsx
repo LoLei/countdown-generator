@@ -1,5 +1,6 @@
-import { createStyles, Title, Text } from '@mantine/core';
 import React from 'react';
+import { createStyles, Title, Text } from '@mantine/core';
+import Link from 'next/link';
 
 const useStyles = createStyles({
   header: {
@@ -26,7 +27,11 @@ const Layout = (props: IProps): JSX.Element => {
   return (
     <>
       <header className={classes.header}>
-        <Title order={2}>Countdown Generator</Title>
+        <Link href="/">
+          <a>
+            <Title order={2}>Countdown Generator</Title>
+          </a>
+        </Link>
       </header>
 
       <main className={classes.main}>{props.children}</main>
