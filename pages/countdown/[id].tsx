@@ -1,15 +1,19 @@
 import { GetServerSidePropsContext } from 'next';
+import Head from 'next/head';
 import React from 'react';
 import {
   getAllCountdownIds,
   getCountdownById,
   ICountdown,
-} from '../lib/countdown';
+} from '../../lib/countdown';
 
 const CountdownPage = (props: IProps): JSX.Element => {
   return (
     <>
-      Hellooo!
+      <Head>
+        <title>Countdown ID {props.countdown.id}</title>
+      </Head>
+      Hellooo! <br />
       {props.countdown.id}
       {props.countdown.dateCreated.toDateString()}
       {props.countdown.dateDue.toDateString()}

@@ -4,7 +4,7 @@ export interface ICountdown {
   dateDue: Date;
 }
 
-const mockCountdowns: ICountdown[] = [
+export const mockCountdowns: ICountdown[] = [
   {
     id: 1,
     dateCreated: new Date('2011-04-11T10:20:30Z'),
