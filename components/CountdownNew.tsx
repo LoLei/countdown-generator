@@ -1,6 +1,7 @@
 import { Button, Card, createStyles, Group, Modal, Title } from '@mantine/core';
-import { DatePicker } from '@mantine/dates';
-import React, { useState } from 'react';
+import { DatePicker, TimeInput } from '@mantine/dates';
+import React, { useEffect, useState } from 'react';
+import { AiOutlineClockCircle, AiOutlineCalendar } from 'react-icons/ai';
 
 const useStyles = createStyles({
   titleNew: {
@@ -11,7 +12,17 @@ const useStyles = createStyles({
 const CountdownNew = (): JSX.Element => {
   const [modalOpen, setModalOpen] = useState<boolean>(false);
   const [dateValue, onDateValueChange] = useState<Date | undefined>(new Date());
+  const [timeValue, onTimeValueChange] = useState<Date | undefined>(new Date());
+  const [timeError, setTimeError] = useState<string>('');
   const { classes } = useStyles();
+
+  useEffect(() => {
+    const dateNow = new Date();
+    console.log({ dateNow });
+    console.log({ dateValue });
+    console.log({ timeValue });
+    // TODO: Set error if date & time is before now
+  }, [dateValue, timeValue]);
 
   return (
     <>
@@ -42,6 +53,17 @@ const CountdownNew = (): JSX.Element => {
           minDate={new Date()}
           required
           clearable={false}
+          icon={<AiOutlineCalendar />}
+        />
+        <TimeInput
+          value={timeValue}
+          onChange={onTimeValueChange}
+          label="Due time"
+          required
+          icon={<AiOutlineClockCircle />}
+          withSeconds
+          invalid={timeError !== ''}
+          error={timeError}
         />
         <Button variant="light">Create</Button>
       </Modal>
