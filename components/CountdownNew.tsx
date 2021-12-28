@@ -1,8 +1,28 @@
-import { Button, Card, Group, Modal, Title } from '@mantine/core';
+import {
+  Button,
+  Card,
+  createStyles,
+  Group,
+  Modal,
+  TextInput,
+  Title,
+} from '@mantine/core';
 import { DatePicker, TimeInput } from '@mantine/dates';
 import dayjs from 'dayjs';
+import { nanoid } from 'nanoid';
 import React, { useEffect, useState } from 'react';
 import { AiOutlineCalendar, AiOutlineClockCircle } from 'react-icons/ai';
+import { ICountdown } from '../lib/countdown';
+
+const useStyles = createStyles({
+  submitButtonContainer: {
+    width: '100%',
+    textAlign: 'center',
+  },
+  submitButton: {
+    marginTop: '1rem',
+  },
+});
 
 /**
  * @returns The current date but with time set to 0
@@ -34,6 +54,8 @@ const CountdownNew = (): JSX.Element => {
   const [error, setError] = useState<boolean>(false);
   const errorMessage = 'Due date cannot be before current date';
   const [combinedDueDate, setCombinedDueDate] = useState<Date | undefined>();
+  const [name, setName] = useState<string | undefined>();
+  const { classes } = useStyles();
 
   useEffect(() => {
     setError(false);
@@ -52,8 +74,17 @@ const CountdownNew = (): JSX.Element => {
   }, [dateValue, timeValue]);
 
   const onSubmitCreation = () => {
-    console.log({ combinedDueDate });
-    // TODO
+    const createdCountdown: ICountdown = {
+      // TODO: May wanna check for existing IDs to avoid collision
+      id: nanoid(6),
+      dateCreated: new Date(),
+      dateDue: combinedDueDate!,
+      name: name,
+    };
+    console.log({ createdCountdown });
+    // TODO: Check again if the created countdown is not before the current time,
+    //  as the form may have been left idle for a while
+    // TODO: Save to DB and redirect to page or show link to page
   };
 
   return (
@@ -93,11 +124,24 @@ const CountdownNew = (): JSX.Element => {
           icon={<AiOutlineClockCircle />}
           withSeconds
           invalid={error}
-          error={error ? errorMessage : '   '}
+          error={error && errorMessage}
         />
-        <Button variant="light" color="orange" onClick={onSubmitCreation}>
-          Create
-        </Button>
+        <TextInput
+          placeholder="Countdown name"
+          label="Optional name"
+          onChange={(e) => setName(e.currentTarget.value)}
+        />
+        <div className={classes.submitButtonContainer}>
+          <Button
+            className={classes.submitButton}
+            variant="light"
+            color="orange"
+            disabled={error}
+            onClick={onSubmitCreation}
+          >
+            Create
+          </Button>
+        </div>
       </Modal>
     </>
   );

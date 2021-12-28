@@ -87,7 +87,7 @@ export async function getStaticProps(context: GetServerSidePropsContext) {
       notFound: true,
     };
   }
-  const countdown = getCountdownById(parseInt(id as string));
+  const countdown = getCountdownById(id as string);
   return {
     props: {
       countdown,
