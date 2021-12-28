@@ -1,20 +1,13 @@
-import { Button, Card, createStyles, Group, Modal, Title } from '@mantine/core';
+import { Button, Card, Group, Modal, Title } from '@mantine/core';
 import { DatePicker, TimeInput } from '@mantine/dates';
 import React, { useEffect, useState } from 'react';
-import { AiOutlineClockCircle, AiOutlineCalendar } from 'react-icons/ai';
-
-const useStyles = createStyles({
-  titleNew: {
-    textAlign: 'center',
-  },
-});
+import { AiOutlineCalendar, AiOutlineClockCircle } from 'react-icons/ai';
 
 const CountdownNew = (): JSX.Element => {
   const [modalOpen, setModalOpen] = useState<boolean>(false);
   const [dateValue, onDateValueChange] = useState<Date | undefined>(new Date());
   const [timeValue, onTimeValueChange] = useState<Date | undefined>(new Date());
   const [timeError, setTimeError] = useState<string>('');
-  const { classes } = useStyles();
 
   useEffect(() => {
     const dateNow = new Date();
@@ -28,9 +21,7 @@ const CountdownNew = (): JSX.Element => {
     <>
       <Card shadow="sm" padding="sm">
         <Group position="center" direction="column" spacing="xs">
-          <Title className={classes.titleNew} order={4}>
-            New Countdown
-          </Title>
+          <Title order={4}>New Countdown</Title>
           <Button
             variant="gradient"
             gradient={{ from: 'orange', to: 'red' }}
@@ -65,7 +56,9 @@ const CountdownNew = (): JSX.Element => {
           invalid={timeError !== ''}
           error={timeError}
         />
-        <Button variant="light">Create</Button>
+        <Button variant="light" color="orange">
+          Create
+        </Button>
       </Modal>
     </>
   );
