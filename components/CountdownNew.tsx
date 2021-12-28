@@ -4,29 +4,48 @@ import dayjs from 'dayjs';
 import React, { useEffect, useState } from 'react';
 import { AiOutlineCalendar, AiOutlineClockCircle } from 'react-icons/ai';
 
+/**
+ * @returns The current date but with time set to 0
+ */
+const getLastMidnight = (): Date => {
+  const dateNow = new Date();
+  dateNow.setHours(0);
+  dateNow.setMinutes(0);
+  dateNow.setSeconds(0);
+  return dateNow;
+};
+
+/**
+ * @returns The current date but with the hour set to +1 and minutes and seconds set to 0
+ */
+const getNextHour = (): Date => {
+  const dateNow = dayjs(new Date());
+  return dateNow.add(1, 'hour').set('minute', 0).set('second', 0).toDate();
+};
+
 const CountdownNew = (): JSX.Element => {
   const [modalOpen, setModalOpen] = useState<boolean>(false);
-  const [dateValue, onDateValueChange] = useState<Date | undefined>(new Date());
-  const [timeValue, onTimeValueChange] = useState<Date | undefined>(new Date());
-  const [error, setError] = useState<string>('');
+  const [dateValue, onDateValueChange] = useState<Date | undefined>(
+    getLastMidnight()
+  );
+  const [timeValue, onTimeValueChange] = useState<Date | undefined>(
+    getNextHour()
+  );
+  const [error, setError] = useState<boolean>(false);
   const errorMessage = 'Due date cannot be before current date';
   const [combinedDueDate, setCombinedDueDate] = useState<Date | undefined>();
 
   useEffect(() => {
-    setError('');
+    setError(false);
 
     const dateNow = new Date();
-    console.log({ dateNow });
-    console.log({ dateValue });
-    console.log({ timeValue });
-
     const combined = dayjs(dateValue)
       .add(timeValue?.getHours() || 0, 'hour')
       .add(timeValue?.getMinutes() || 0, 'minute')
       .add(timeValue?.getSeconds() || 0, 'second');
 
     if (combined.isBefore(dateNow)) {
-      setError(errorMessage);
+      setError(true);
     } else {
       setCombinedDueDate(combined.toDate());
     }
@@ -73,8 +92,8 @@ const CountdownNew = (): JSX.Element => {
           required
           icon={<AiOutlineClockCircle />}
           withSeconds
-          invalid={error !== ''}
-          error={error}
+          invalid={error}
+          error={error ? errorMessage : '   '}
         />
         <Button variant="light" color="orange" onClick={onSubmitCreation}>
           Create
