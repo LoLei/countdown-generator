@@ -8,10 +8,12 @@ import {
   Title,
 } from '@mantine/core';
 import { DatePicker, TimeInput } from '@mantine/dates';
+import { useMediaQuery } from '@mantine/hooks';
 import dayjs from 'dayjs';
 import { nanoid } from 'nanoid';
 import React, { useEffect, useState } from 'react';
 import { AiOutlineCalendar, AiOutlineClockCircle } from 'react-icons/ai';
+import { mobileMediaQueryWidth } from '../lib/consts';
 import { ICountdown } from '../lib/countdown';
 
 const useStyles = createStyles({
@@ -55,6 +57,7 @@ const CountdownNew = (): JSX.Element => {
   const errorMessage = 'Due date cannot be before current date';
   const [combinedDueDate, setCombinedDueDate] = useState<Date | undefined>();
   const [name, setName] = useState<string | undefined>();
+  const isMobile = useMediaQuery(`(max-width: ${mobileMediaQueryWidth})`);
   const { classes } = useStyles();
 
   useEffect(() => {
@@ -115,6 +118,7 @@ const CountdownNew = (): JSX.Element => {
           required
           clearable={false}
           icon={<AiOutlineCalendar />}
+          dropdownType={isMobile ? 'modal' : 'popover'}
         />
         <TimeInput
           value={timeValue}
