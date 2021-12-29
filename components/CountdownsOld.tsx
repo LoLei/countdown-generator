@@ -2,6 +2,7 @@ import { Card, createStyles, Text, Title } from '@mantine/core';
 import Link from 'next/link';
 import React from 'react';
 import { mockCountdowns } from '../lib/countdown';
+import { formatDate } from '../lib/dates';
 
 const useStyles = createStyles({
   titleOld: {
@@ -22,10 +23,7 @@ const CountdownsOld = (): JSX.Element => {
           return (
             <li key={idx}>
               <Link href={`/countdown/${it.id}`} passHref>
-                <Text component="a">
-                  Created: {it.dateCreated.toDateString()}, due:{' '}
-                  {it.dateDue.toDateString()}
-                </Text>
+                <Text component="a">Due: {formatDate(it.dateDue)}</Text>
               </Link>
             </li>
           );

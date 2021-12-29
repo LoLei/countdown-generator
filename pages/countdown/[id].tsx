@@ -7,6 +7,7 @@ import {
   ICountdown,
 } from '../../lib/countdown';
 import { Card, Container, createStyles, Group, Text } from '@mantine/core';
+import { formatDate } from '../../lib/dates';
 
 const useStyles = createStyles({
   container: {
@@ -53,10 +54,8 @@ const CountdownPage = (props: IProps): JSX.Element => {
             ) : (
               <TitleText>Countdown ID: {props.countdown.id}</TitleText>
             )}
-            <Text>
-              Created at: {props.countdown.dateCreated.toDateString()}
-            </Text>
-            <Text>Due at: {props.countdown.dateDue.toDateString()}</Text>
+            <Text>Created at: {formatDate(props.countdown.dateCreated)}</Text>
+            <Text>Due at: {formatDate(props.countdown.dateDue)}</Text>
           </Group>
         </Card>
       </Container>
