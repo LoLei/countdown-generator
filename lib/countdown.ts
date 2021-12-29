@@ -22,6 +22,12 @@ export const mockCountdowns: ICountdown[] = [
     dateDue: new Date('2022-03-01T00:00:00Z'),
     name: 'My March 1 Countdown',
   },
+  {
+    id: 'id4',
+    dateCreated: new Date('2021-12-28T00:00:00Z'),
+    dateDue: new Date('2022-03-01T00:00:00Z'),
+    name: 'Countdown with really long name so long it will be truncated at some places',
+  },
 ];
 
 export function getAllCountdownIds() {

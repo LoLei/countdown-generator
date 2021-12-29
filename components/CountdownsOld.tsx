@@ -1,8 +1,10 @@
-import { Card, createStyles, Text, Title } from '@mantine/core';
-import Link from 'next/link';
+import { Card, createStyles, Table, Title } from '@mantine/core';
+import { useMediaQuery } from '@mantine/hooks';
 import React from 'react';
+import { mobileMediaQueryWidth } from '../lib/consts';
 import { mockCountdowns } from '../lib/countdown';
 import { formatDate } from '../lib/dates';
+import { getTruncatedString } from '../lib/strings';
 
 const useStyles = createStyles({
   titleOld: {
@@ -12,23 +14,38 @@ const useStyles = createStyles({
 
 const CountdownsOld = (): JSX.Element => {
   const { classes } = useStyles();
+  const isMobile = useMediaQuery(`(max-width: ${mobileMediaQueryWidth})`);
 
   return (
     <Card shadow="sm" padding="sm">
       <Title className={classes.titleOld} order={4}>
         Old Countdowns
       </Title>
-      <ul>
-        {mockCountdowns.map((it, idx) => {
-          return (
-            <li key={idx}>
-              <Link href={`/countdown/${it.id}`} passHref>
-                <Text component="a">Due: {formatDate(it.dateDue)}</Text>
-              </Link>
-            </li>
-          );
-        })}
-      </ul>
+
+      <Table>
+        <thead>
+          <tr>
+            <th>ID/Name</th>
+            <th>Due name</th>
+            <th>Completed</th>
+          </tr>
+        </thead>
+        <tbody>
+          {mockCountdowns.map((it, idx) => {
+            return (
+              <tr key={idx}>
+                <td>
+                  {it.name
+                    ? getTruncatedString(it.name, isMobile ? 6 : 50)
+                    : it.id}
+                </td>
+                <td>{formatDate(it.dateDue)}</td>
+                <td>TODO</td>
+              </tr>
+            );
+          })}
+        </tbody>
+      </Table>
     </Card>
   );
 };
