@@ -1,6 +1,7 @@
-import React from 'react';
-import { createStyles, Title, Text } from '@mantine/core';
+import { createStyles, Text, Title } from '@mantine/core';
 import Link from 'next/link';
+import React from 'react';
+import { AiFillGithub } from 'react-icons/ai';
 
 const useStyles = createStyles({
   header: {
@@ -18,6 +19,9 @@ const useStyles = createStyles({
   footer: {
     minHeight: '1rem',
     textAlign: 'center',
+  },
+  footerIcon: {
+    transform: 'translateY(0.125rem)',
   },
 });
 
@@ -39,11 +43,11 @@ const Layout = (props: IProps): JSX.Element => {
       <footer className={classes.footer}>
         <Text
           component="a"
-          href="https://lolei.dev"
+          href="https://github.com/LoLei/countdown-generator"
           target="_blank"
           rel="noopener noreferrer"
         >
-          Powered by &lt;3
+          <AiFillGithub className={classes.footerIcon} /> Source
         </Text>
       </footer>
     </>

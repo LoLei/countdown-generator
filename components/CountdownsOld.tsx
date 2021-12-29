@@ -22,7 +22,7 @@ const CountdownsOld = (): JSX.Element => {
         Old Countdowns
       </Title>
 
-      <Table>
+      <Table highlightOnHover>
         <thead>
           <tr>
             <th>ID/Name</th>
