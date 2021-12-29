@@ -11,12 +11,16 @@ const useStyles = createStyles({
   titleOld: {
     textAlign: 'center',
   },
+  tableDataRow: {
+    cursor: 'pointer',
+  },
 });
 
 const CountdownsOld = (): JSX.Element => {
   const { classes } = useStyles();
   const isMobile = useMediaQuery(`(max-width: ${mobileMediaQueryWidth})`);
   const router = useRouter();
+  const maxNumberOldCountdowns = 10;
 
   useEffect(() => {
     // Since next/link does not work well with an entire table row,
@@ -33,7 +37,10 @@ const CountdownsOld = (): JSX.Element => {
         Old Countdowns
       </Title>
 
-      <Table highlightOnHover>
+      <Table highlightOnHover captionSide="bottom">
+        <caption>
+          Last {maxNumberOldCountdowns} countdowns. Click to visit.
+        </caption>
         <thead>
           <tr>
             <th>ID/Name</th>
@@ -44,7 +51,11 @@ const CountdownsOld = (): JSX.Element => {
         <tbody>
           {mockCountdowns.map((it, idx) => {
             return (
-              <tr key={idx} onClick={() => router.push(`/countdown/${it.id}`)}>
+              <tr
+                key={idx}
+                className={classes.tableDataRow}
+                onClick={() => router.push(`/countdown/${it.id}`)}
+              >
                 <td>
                   {it.name
                     ? getTruncatedString(it.name, isMobile ? 6 : 50)
