@@ -1,5 +1,6 @@
 import { Card, createStyles, Table, Title } from '@mantine/core';
 import { useMediaQuery } from '@mantine/hooks';
+import Link from 'next/link';
 import React from 'react';
 import { mobileMediaQueryWidth } from '../lib/consts';
 import { mockCountdowns } from '../lib/countdown';
@@ -15,6 +16,21 @@ const useStyles = createStyles({
 const CountdownsOld = (): JSX.Element => {
   const { classes } = useStyles();
   const isMobile = useMediaQuery(`(max-width: ${mobileMediaQueryWidth})`);
+
+  function Td({ children, to }: { children: React.ReactNode; to?: string }) {
+    // Conditionally wrapping content into a link
+    if (to) {
+      return (
+        <td>
+          <Link href={to} passHref>
+            <a>{children}</a>
+          </Link>
+        </td>
+      );
+    } else {
+      return <div>{children}</div>;
+    }
+  }
 
   return (
     <Card shadow="sm" padding="sm">
@@ -34,11 +50,11 @@ const CountdownsOld = (): JSX.Element => {
           {mockCountdowns.map((it, idx) => {
             return (
               <tr key={idx}>
-                <td>
+                <Td to={`/countdown/${it.id}`}>
                   {it.name
                     ? getTruncatedString(it.name, isMobile ? 6 : 50)
                     : it.id}
-                </td>
+                </Td>
                 <td>{formatDate(it.dateDue)}</td>
                 <td>TODO</td>
               </tr>
