@@ -53,15 +53,19 @@ const CountdownNew = (): JSX.Element => {
   const [timeValue, onTimeValueChange] = useState<Date | undefined>(
     getNextHour()
   );
-  const [error, setError] = useState<boolean>(false);
-  const errorMessage = 'Due date cannot be before current date';
+  const [dateError, setDateError] = useState<boolean>(false);
+  const dateErrorMessage = 'Due date cannot be before current date';
   const [combinedDueDate, setCombinedDueDate] = useState<Date | undefined>();
   const [name, setName] = useState<string | undefined>();
+  const [nameError, setNameError] = useState<boolean>(false);
+  const nameMaxLength = 75;
+  const nameErrorMessage = `Name can have a maximum of ${nameMaxLength} characters`;
+  const canSubmit = !dateError && !nameError;
   const isMobile = useMediaQuery(`(max-width: ${mobileMediaQueryWidth})`);
   const { classes } = useStyles();
 
   useEffect(() => {
-    setError(false);
+    setDateError(false);
 
     const dateNow = new Date();
     const combined = dayjs(dateValue)
@@ -70,11 +74,19 @@ const CountdownNew = (): JSX.Element => {
       .add(timeValue?.getSeconds() || 0, 'second');
 
     if (combined.isBefore(dateNow)) {
-      setError(true);
+      setDateError(true);
     } else {
       setCombinedDueDate(combined.toDate());
     }
   }, [dateValue, timeValue]);
+
+  useEffect(() => {
+    if (name && name.length > nameMaxLength) {
+      setNameError(true);
+    } else {
+      setNameError(false);
+    }
+  }, [name]);
 
   const onSubmitCreation = () => {
     const createdCountdown: ICountdown = {
@@ -127,20 +139,22 @@ const CountdownNew = (): JSX.Element => {
           required
           icon={<AiOutlineClockCircle />}
           withSeconds
-          invalid={error}
-          error={error && errorMessage}
+          invalid={dateError}
+          error={dateError && dateErrorMessage}
         />
         <TextInput
           placeholder="Countdown name"
           label="Optional name"
           onChange={(e) => setName(e.currentTarget.value)}
+          invalid={nameError}
+          error={nameError && nameErrorMessage}
         />
         <div className={classes.submitButtonContainer}>
           <Button
             className={classes.submitButton}
             variant="light"
             color="orange"
-            disabled={error}
+            disabled={!canSubmit}
             onClick={onSubmitCreation}
           >
             Create
