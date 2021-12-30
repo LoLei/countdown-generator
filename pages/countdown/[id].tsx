@@ -46,13 +46,14 @@ const countdownRenderer = ({
   completed: boolean;
 }) => {
   if (completed) {
-    // Render a completed state
     return <Completionist />;
   } else {
-    // Render a countdown
     return (
       <span>
-        Days: {days} Hours: {hours} Minutes: {minutes} Seconds: {seconds}
+        {days > 0 && `Days: ${days} `}
+        {`Hours: ${hours} `}
+        {`Min: ${minutes} `}
+        {`Sec: ${seconds}`}
       </span>
     );
   }
