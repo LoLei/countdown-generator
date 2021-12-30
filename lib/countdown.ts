@@ -7,6 +7,12 @@ export interface ICountdown {
 
 export const mockCountdowns: ICountdown[] = [
   {
+    id: 'id5xyz',
+    dateCreated: new Date('2021-12-30T01:00:00Z'),
+    dateDue: new Date('2022-02-01T12:00:00Z'),
+    name: 'A Test Countdown',
+  },
+  {
     id: 'id4',
     dateCreated: new Date('2021-12-28T00:00:00Z'),
     dateDue: new Date('2022-03-01T00:00:00Z'),
