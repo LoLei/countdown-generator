@@ -12,7 +12,7 @@ export default function Document() {
         <link rel="icon" href="/favicon.ico" />
         <link
           rel="stylesheet"
-          href="https://fonts.googleapis.com/css?family=Roboto|Roboto Condensed:300,400,500,700&display=swap"
+          href="https://fonts.googleapis.com/css?family=Roboto|Roboto Condensed|Roboto Mono:300,400,500,700&display=swap"
         />
       </Head>
       <body>

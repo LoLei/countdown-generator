@@ -23,7 +23,7 @@ const CountdownsOld = (): JSX.Element => {
   const { classes } = useStyles();
   const isMobile = useMediaQuery(`(max-width: ${mobileMediaQueryWidth})`);
   const router = useRouter();
-  const maxNumberOldCountdowns = 10;
+  const maxNumberOldCountdowns = 5;
   const currentDate = new Date();
 
   useEffect(() => {

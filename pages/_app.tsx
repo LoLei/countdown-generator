@@ -21,6 +21,7 @@ function MyApp({ Component, pageProps }: AppProps) {
           // Override any other properties from default theme
           fontFamily: 'Roboto, Open Sans, DejaVu Sans, sans serif',
           fontFamilyMonospace: 'Monaco, Courier, monospace',
+          fontSizes: { lg: 24, xl: 30 },
           headings: { fontFamily: 'Roboto Condensed, sans-serif' },
           spacing: { xs: 15, sm: 20, md: 25, lg: 30, xl: 40 },
           colorScheme: 'dark',

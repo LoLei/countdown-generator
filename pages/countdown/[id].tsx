@@ -24,15 +24,27 @@ const useStyles = createStyles({
 const Completionist = () => {
   const { classes } = useStyles();
   return (
-    <span>
+    <Text size="lg" weight={500} align="center">
       Countdown completed!{' '}
       <MdOutlineCelebration className={classes.completionIcon} />
-    </span>
+    </Text>
+  );
+};
+
+const CountdownPartText = ({ children }: { children: React.ReactNode }) => {
+  return (
+    <Text
+      size="xl"
+      style={{ fontFamily: 'Roboto Mono, monospace' }}
+      weight={700}
+    >
+      {children}
+    </Text>
   );
 };
 
 // Renderer callback with condition
-const countdownRenderer = ({
+const CountdownRenderer = ({
   days,
   hours,
   minutes,
@@ -49,12 +61,12 @@ const countdownRenderer = ({
     return <Completionist />;
   } else {
     return (
-      <span>
-        {days > 0 && `Days: ${days} `}
-        {`Hours: ${hours} `}
-        {`Min: ${minutes} `}
-        {`Sec: ${seconds}`}
-      </span>
+      <>
+        {days > 0 && <CountdownPartText>{days}d</CountdownPartText>}
+        {<CountdownPartText>{hours}h</CountdownPartText>}
+        {<CountdownPartText>{minutes}m</CountdownPartText>}
+        {<CountdownPartText>{seconds}s</CountdownPartText>}
+      </>
     );
   }
 };
@@ -68,9 +80,10 @@ const TitleText = ({
     <Text
       variant="gradient"
       gradient={{ from: 'orange', to: 'red', deg: 45 }}
-      size="xl"
+      size="lg"
       weight={700}
       style={{ fontFamily: 'Roboto Condensed, sans-serif' }}
+      align="center"
     >
       {children}
     </Text>
@@ -91,21 +104,27 @@ const CountdownPage = (props: IProps): JSX.Element => {
       </Head>
 
       <Container className={classes.container} size="sm">
-        <Card shadow="sm" padding="sm">
-          <Group position="center" direction="column" spacing="xs">
-            {props.countdown.name ? (
-              <TitleText>{props.countdown.name}</TitleText>
-            ) : (
-              <TitleText>Countdown ID: {props.countdown.id}</TitleText>
-            )}
-            <Text>Created at: {formatDate(props.countdown.dateCreated)}</Text>
-            <Text>Due at: {formatDate(props.countdown.dateDue)}</Text>
-            <Countdown
-              date={props.countdown.dateDue}
-              renderer={countdownRenderer}
-            />
-          </Group>
-        </Card>
+        <Group position="center" direction="column" grow>
+          <Card shadow="sm" padding="sm">
+            <Group position="center" direction="column" spacing="xs">
+              {props.countdown.name ? (
+                <TitleText>{props.countdown.name}</TitleText>
+              ) : (
+                <TitleText>Countdown ID: {props.countdown.id}</TitleText>
+              )}
+              <Text>Created at: {formatDate(props.countdown.dateCreated)}</Text>
+              <Text>Due at: {formatDate(props.countdown.dateDue)}</Text>
+            </Group>
+          </Card>
+          <Card padding="xs">
+            <Group position="center" direction="column" spacing={0}>
+              <Countdown
+                date={props.countdown.dateDue}
+                renderer={CountdownRenderer}
+              />
+            </Group>
+          </Card>
+        </Group>
       </Container>
     </>
   );
