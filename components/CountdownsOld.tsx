@@ -49,7 +49,7 @@ const CountdownsOld = (): JSX.Element => {
           </tr>
         </thead>
         <tbody>
-          {mockCountdowns.map((it, idx) => {
+          {mockCountdowns.slice(maxNumberOldCountdowns * -1).map((it, idx) => {
             return (
               <tr
                 key={idx}
