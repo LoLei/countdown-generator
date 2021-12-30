@@ -1,7 +1,10 @@
 import { Card, createStyles, Table, Title } from '@mantine/core';
 import { useMediaQuery } from '@mantine/hooks';
+import dayjs from 'dayjs';
 import { useRouter } from 'next/router';
 import React, { useEffect } from 'react';
+import { IoIosCheckmarkCircleOutline } from 'react-icons/io';
+import { IoHourglassOutline } from 'react-icons/io5';
 import { mobileMediaQueryWidth } from '../lib/consts';
 import { mockCountdowns } from '../lib/countdown';
 import { formatDate } from '../lib/dates';
@@ -21,6 +24,7 @@ const CountdownsOld = (): JSX.Element => {
   const isMobile = useMediaQuery(`(max-width: ${mobileMediaQueryWidth})`);
   const router = useRouter();
   const maxNumberOldCountdowns = 10;
+  const currentDate = new Date();
 
   useEffect(() => {
     // Since next/link does not work well with an entire table row,
@@ -45,11 +49,12 @@ const CountdownsOld = (): JSX.Element => {
           <tr>
             <th>ID/Name</th>
             <th>Due name</th>
-            <th>Completed</th>
+            <th>Status</th>
           </tr>
         </thead>
         <tbody>
           {mockCountdowns.slice(maxNumberOldCountdowns * -1).map((it, idx) => {
+            // May need to sort countdowns by date if they do not come already sorted
             return (
               <tr
                 key={idx}
@@ -62,7 +67,16 @@ const CountdownsOld = (): JSX.Element => {
                     : it.id}
                 </td>
                 <td>{formatDate(it.dateDue)}</td>
-                <td>TODO</td>
+                <td>
+                  {
+                    // Could do this periodically, but not really necessary
+                    dayjs(it.dateDue).isBefore(currentDate) ? (
+                      <IoIosCheckmarkCircleOutline />
+                    ) : (
+                      <IoHourglassOutline />
+                    )
+                  }
+                </td>
               </tr>
             );
           })}

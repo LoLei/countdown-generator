@@ -7,14 +7,10 @@ export interface ICountdown {
 
 export const mockCountdowns: ICountdown[] = [
   {
-    id: 'id1',
-    dateCreated: new Date('2011-04-11T10:20:30Z'),
-    dateDue: new Date('2011-04-12T10:20:30Z'),
-  },
-  {
-    id: 'id2',
-    dateCreated: new Date('2021-04-11T10:20:30Z'),
-    dateDue: new Date('2021-04-12T10:20:30Z'),
+    id: 'id4',
+    dateCreated: new Date('2021-12-28T00:00:00Z'),
+    dateDue: new Date('2022-03-01T00:00:00Z'),
+    name: 'Countdown with really long name so long it will be truncated at some places that do not have enough space',
   },
   {
     id: 'id3',
@@ -23,10 +19,14 @@ export const mockCountdowns: ICountdown[] = [
     name: 'My March 1 Countdown',
   },
   {
-    id: 'id4',
-    dateCreated: new Date('2021-12-28T00:00:00Z'),
-    dateDue: new Date('2022-03-01T00:00:00Z'),
-    name: 'Countdown with really long name so long it will be truncated at some places that do not have enough space',
+    id: 'id2',
+    dateCreated: new Date('2021-04-11T10:20:30Z'),
+    dateDue: new Date('2021-04-12T10:20:30Z'),
+  },
+  {
+    id: 'id1',
+    dateCreated: new Date('2011-04-11T10:20:30Z'),
+    dateDue: new Date('2011-04-12T10:20:30Z'),
   },
 ];
 
