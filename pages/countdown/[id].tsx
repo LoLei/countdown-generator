@@ -20,7 +20,6 @@ const useStyles = createStyles({
   },
 });
 
-// Random component
 const Completionist = () => {
   const { classes } = useStyles();
   return (
@@ -43,7 +42,6 @@ const CountdownPartText = ({ children }: { children: React.ReactNode }) => {
   );
 };
 
-// Renderer callback with condition
 const CountdownRenderer = ({
   days,
   hours,
