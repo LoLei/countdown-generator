@@ -33,11 +33,13 @@ const Completionist = () => {
 
 // Renderer callback with condition
 const countdownRenderer = ({
+  days,
   hours,
   minutes,
   seconds,
   completed,
 }: {
+  days: number;
   hours: number;
   minutes: number;
   seconds: number;
@@ -50,7 +52,7 @@ const countdownRenderer = ({
     // Render a countdown
     return (
       <span>
-        Hours: {hours} Minutes: {minutes} Seconds: {seconds}
+        Days: {days} Hours: {hours} Minutes: {minutes} Seconds: {seconds}
       </span>
     );
   }
@@ -97,7 +99,10 @@ const CountdownPage = (props: IProps): JSX.Element => {
             )}
             <Text>Created at: {formatDate(props.countdown.dateCreated)}</Text>
             <Text>Due at: {formatDate(props.countdown.dateDue)}</Text>
-            <Countdown date={Date.now() + 5_000} renderer={countdownRenderer} />
+            <Countdown
+              date={props.countdown.dateDue}
+              renderer={countdownRenderer}
+            />
           </Group>
         </Card>
       </Container>

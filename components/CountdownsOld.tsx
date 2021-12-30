@@ -48,7 +48,7 @@ const CountdownsOld = (): JSX.Element => {
         <thead>
           <tr>
             <th>ID/Name</th>
-            <th>Due name</th>
+            <th>Due date</th>
             <th>Status</th>
           </tr>
         </thead>
