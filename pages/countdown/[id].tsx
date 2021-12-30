@@ -9,18 +9,58 @@ import {
 import { Card, Container, createStyles, Group, Text } from '@mantine/core';
 import { formatDate } from '../../lib/dates';
 import Countdown from 'react-countdown';
+import { MdOutlineCelebration } from 'react-icons/md';
 
 const useStyles = createStyles({
   container: {
     width: '100%',
   },
+  completionIcon: {
+    transform: 'translateY(0.125rem)',
+  },
 });
 
-interface ITitleTextProps {
-  children: React.ReactNode;
-}
+// Random component
+const Completionist = () => {
+  const { classes } = useStyles();
+  return (
+    <span>
+      Countdown completed!{' '}
+      <MdOutlineCelebration className={classes.completionIcon} />
+    </span>
+  );
+};
 
-const TitleText = ({ children }: ITitleTextProps): JSX.Element => {
+// Renderer callback with condition
+const countdownRenderer = ({
+  hours,
+  minutes,
+  seconds,
+  completed,
+}: {
+  hours: number;
+  minutes: number;
+  seconds: number;
+  completed: boolean;
+}) => {
+  if (completed) {
+    // Render a completed state
+    return <Completionist />;
+  } else {
+    // Render a countdown
+    return (
+      <span>
+        Hours: {hours} Minutes: {minutes} Seconds: {seconds}
+      </span>
+    );
+  }
+};
+
+const TitleText = ({
+  children,
+}: {
+  children: React.ReactNode;
+}): JSX.Element => {
   return (
     <Text
       variant="gradient"
@@ -57,7 +97,7 @@ const CountdownPage = (props: IProps): JSX.Element => {
             )}
             <Text>Created at: {formatDate(props.countdown.dateCreated)}</Text>
             <Text>Due at: {formatDate(props.countdown.dateDue)}</Text>
-            <Countdown date={Date.now() + 10000} />
+            <Countdown date={Date.now() + 5_000} renderer={countdownRenderer} />
           </Group>
         </Card>
       </Container>
