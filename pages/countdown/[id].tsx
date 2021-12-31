@@ -60,9 +60,9 @@ const CountdownRenderer = ({
   } else {
     return (
       <>
-        {days > 0 && <CountdownPartText>{days}d</CountdownPartText>}
-        {<CountdownPartText>{hours}h</CountdownPartText>}
-        {<CountdownPartText>{minutes}m</CountdownPartText>}
+        {days > 0 && <CountdownPartText>{days}d :</CountdownPartText>}
+        {<CountdownPartText>{hours}h :</CountdownPartText>}
+        {<CountdownPartText>{minutes}m :</CountdownPartText>}
         {<CountdownPartText>{seconds}s</CountdownPartText>}
       </>
     );
@@ -115,7 +115,7 @@ const CountdownPage = (props: IProps): JSX.Element => {
             </Group>
           </Card>
           <Card padding="xs">
-            <Group position="center" direction="column" spacing={0}>
+            <Group position="center" direction="row" spacing="xs" >
               <Countdown
                 date={props.countdown.dateDue}
                 renderer={CountdownRenderer}
