@@ -31,15 +31,14 @@ app.post('/countdown', async (req, res) => {
 app.listen(3001, async () => {
     try {
         await fs.access('countdowns.json');
-        const doCountdownsExist = await (await fs.readFile('countdowns.json')).toString();
+        const doCountdownsExist = await fs.readFile('countdowns.json').toString();
         if (!JSON.parse(doCountdownsExist)) await fs.writeFile('countdowns.json', '');
-        console.log(JSON.parse(doCountdownsExist))
+        
         for (const [id, cd] of Object.entries(JSON.parse(doCountdownsExist))) {
             countdowns[id] = { dateCreated: cd.dateCreated, dateDue: cd.dateDue, name: cd.name }
         }
         console.log('Backend listening on 3001');
     } catch (e) {
-        console.log(e);
         await fs.writeFile('countdowns.json', '');
         console.log('Backend listening on 3001');
     }
