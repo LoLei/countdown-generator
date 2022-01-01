@@ -1,34 +1,46 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+# Countdown Generator ⏳⏲️⏰
 
-## Getting Started
+This is a web application to create, save, and share countdowns/timers.
 
-First, run the development server:
+## Use Case
 
-```bash
-npm run dev
-# or
-yarn dev
-```
+Sometimes you may want to save a countdown to a specific date/time online, and
+view it at a later time, as well as share it with other people, even watching it
+at the same time at remote locations.  
+Countdown Generator makes this possible. After you create a countdown, you can
+copy the link on which the countdown can be viewed, and on which it is stored
+indefinitely.
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## Features
 
-You can start editing the page by modifying `pages/index.tsx`. The page auto-updates as you edit the file.
+- Storage
+- Sharing
+- Mobile and desktop compatibility
 
-[API routes](https://nextjs.org/docs/api-routes/introduction) can be accessed on [http://localhost:3000/api/hello](http://localhost:3000/api/hello). This endpoint can be edited in `pages/api/hello.ts`.
+### Coming Soon™
 
-The `pages/api` directory is mapped to `/api/*`. Files in this directory are treated as [API routes](https://nextjs.org/docs/api-routes/introduction) instead of React pages.
+- [More features](https://github.com/LoLei/countdown-generator/issues/2)
 
-## Learn More
+## Technology
 
-To learn more about Next.js, take a look at the following resources:
+This app is built with:
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+- Next.js
+  - Utilizing dynamic page routes, data prefetching, and API routes, i.e. backend and frontend
+- node-json-db
+  - Basically just a JSON file
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
+## Deployment
 
-## Deploy on Vercel
+The production instance is deployed to my [Kubernetes
+cluster](k8s-dashboard.lolei.dev/) at
+[countdown.lolei.dev](https://countdown.lolei.dev) via a [Tanka
+specification](/k8s). Some parts of this specification will be moved to a
+central location in the future and only imported here.
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+## Background
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+This app came into being when I wanted to share a countdown to a single
+timestamp. I specifically did not look up potential existing apps that offer
+this functionality since I figured this would be a nice holiday project to
+occupy some time.
