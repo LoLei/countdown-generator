@@ -60,9 +60,9 @@ const CountdownRenderer = ({
   } else {
     return (
       <>
-        {days > 0 && <CountdownPartText>{days}d :</CountdownPartText>}
-        {<CountdownPartText>{hours}h :</CountdownPartText>}
-        {<CountdownPartText>{minutes}m :</CountdownPartText>}
+        {days > 0 && <CountdownPartText>{days}d </CountdownPartText>}
+        {<CountdownPartText>{hours}h </CountdownPartText>}
+        {<CountdownPartText>{minutes}m </CountdownPartText>}
         {<CountdownPartText>{seconds}s</CountdownPartText>}
       </>
     );
