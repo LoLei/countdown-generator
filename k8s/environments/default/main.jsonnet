@@ -7,6 +7,7 @@ local k = import 'github.com/grafana/jsonnet-libs/ksonnet-util/kausal.libsonnet'
       name: 'countdown-generator',
       tag: '0.0.1',
       servicePort: 80,
+      url: 'countdown.lolei.dev',
     },
   },
 
@@ -15,6 +16,7 @@ local k = import 'github.com/grafana/jsonnet-libs/ksonnet-util/kausal.libsonnet'
   local containerPort = k.core.v1.containerPort,
   local service = k.core.v1.service,
   local servicePort = k.core.v1.servicePort,
+  local ingress = k.networking.v1.ingress,
 
   local labels = { name: $._config.ctd_gen.name },
 
@@ -47,5 +49,46 @@ local k = import 'github.com/grafana/jsonnet-libs/ksonnet-util/kausal.libsonnet'
         )]
       )
       + service.metadata.withLabels(labels),
+    ingress:
+      ingress.new(
+        name=$._config.ctd_gen.name,
+      )
+      + ingress.metadata.withAnnotations(
+        {
+          'kubernetes.io/ingress.class': 'nginx',
+          'cert-manager.io/cluster-issuer': 'letsencrypt-prod',
+        }
+      )
+      + ingress.spec.withTls(
+        [
+          {
+            hosts: [$._config.ctd_gen.url],
+            secretName: '%s-tls' % $._config.ctd_gen.name,
+          },
+        ]
+      )
+      + ingress.spec.withRules(
+        [
+          {
+            host: $._config.ctd_gen.url,
+            http: {
+              paths: [
+                {
+                  path: '/',
+                  pathType: 'Prefix',
+                  backend: {
+                    service: {
+                      name: $._config.ctd_gen.name,
+                      port: {
+                        number: $._config.ctd_gen.servicePort,
+                      },
+                    },
+                  },
+                },
+              ],
+            },
+          },
+        ]
+      ),
   },
 }
