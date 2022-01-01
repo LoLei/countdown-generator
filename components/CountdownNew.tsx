@@ -11,12 +11,11 @@ import {
 import { DatePicker, TimeInput } from '@mantine/dates';
 import { useMediaQuery } from '@mantine/hooks';
 import dayjs from 'dayjs';
-import axios from 'axios';
 import { nanoid } from 'nanoid';
 import React, { useEffect, useState } from 'react';
 import { AiOutlineCalendar, AiOutlineClockCircle } from 'react-icons/ai';
 import { mobileMediaQueryWidth } from '../lib/consts';
-import { ICountdown } from '../lib/countdown';
+import { ICountdown } from '../pages/api/countdown';
 
 const useStyles = createStyles({
   submitButtonContainer: {
@@ -92,14 +91,21 @@ const CountdownNew = (): JSX.Element => {
 
   const onSubmitCreation = async () => {
     const createdCountdown: ICountdown = {
-      // TODO: May wanna check for existing IDs to avoid collision
+      // TODO: Check for existing IDs to avoid collision (in backend)
       id: nanoid(6),
       dateCreated: new Date(),
       dateDue: combinedDueDate!,
       name: name,
     };
-    console.log({ createdCountdown });
-    await axios.post('http://localhost:3001/countdown', createdCountdown);
+
+    const myHeaders = new Headers();
+    myHeaders.append('Content-Type', 'application/json');
+    await fetch('/api/countdown', {
+      method: 'POST',
+      body: JSON.stringify(createdCountdown),
+      headers: myHeaders,
+    });
+
     // TODO: Check again if the created countdown is not before the current time,
     //  as the form may have been left idle for a while
     // TODO: Save to DB and redirect to page or show link to page

@@ -2,13 +2,13 @@ import { Card, createStyles, Table, Title } from '@mantine/core';
 import { useMediaQuery } from '@mantine/hooks';
 import dayjs from 'dayjs';
 import { useRouter } from 'next/router';
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { IoIosCheckmarkCircleOutline } from 'react-icons/io';
 import { IoHourglassOutline } from 'react-icons/io5';
 import { mobileMediaQueryWidth } from '../lib/consts';
-import { mockCountdowns } from '../lib/countdown';
 import { formatDate } from '../lib/dates';
 import { getTruncatedString } from '../lib/strings';
+import { ICountdown } from '../pages/api/countdown';
 
 const useStyles = createStyles({
   titleOld: {
@@ -25,14 +25,21 @@ const CountdownsOld = (): JSX.Element => {
   const router = useRouter();
   const maxNumberOldCountdowns = 5;
   const currentDate = new Date();
+  const [countdowns, setCountdowns] = useState<ICountdown[]>([]);
 
   useEffect(() => {
     // Since next/link does not work well with an entire table row,
     // prefetch the resources here so they are already loaded when
     // router.push is called
-    mockCountdowns.forEach((it) => {
-      router.prefetch(`/countdown/${it.id}`);
-    });
+    fetch('/api/countdown') // Gets the last n countdowns
+      .then((r) => r.json())
+      .then((countdowns: ICountdown[]) => {
+        setCountdowns(countdowns);
+        countdowns.forEach((it) => {
+          router.prefetch(`/countdown/${it}`);
+        });
+      })
+      .catch((e) => console.error(e));
   }, [router]);
 
   return (
@@ -53,7 +60,7 @@ const CountdownsOld = (): JSX.Element => {
           </tr>
         </thead>
         <tbody>
-          {mockCountdowns.slice(maxNumberOldCountdowns * -1).map((it, idx) => {
+          {countdowns.map((it, idx) => {
             // May need to sort countdowns by date if they do not come already sorted
             return (
               <tr

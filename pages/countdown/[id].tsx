@@ -5,7 +5,7 @@ import {
   getAllCountdownIds,
   getCountdownById,
   ICountdown,
-} from '../../lib/countdown';
+} from '../api/countdown';
 import { Card, Container, createStyles, Group, Text } from '@mantine/core';
 import { formatDate } from '../../lib/dates';
 import Countdown from 'react-countdown';
