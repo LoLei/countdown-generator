@@ -23,24 +23,28 @@ function(tag=null) {
       name=$._config.ctd_gen.name,
       data={ CTD_GEN_DB_LOCATION: '/app/data/countdownDb' }
     ),
-    deployment: deployment.new(
-      name=$._config.ctd_gen.name,
-      replicas=1,
-      containers=[
-        container.new(
-          name=$._config.ctd_gen.name,
-          image='ghcr.io/lolei/%s:%s' % [$._config.ctd_gen.name, $._config.ctd_gen.tag]
-        )
-        // Apparently all ports must have a name in the Grafana wrapper:
-        // https://github.com/grafana/jsonnet-libs/blob/2619bb87ecb336a59616df4c1fe8ced668bdbc94/ksonnet-util/grafana.libsonnet#L6
-        + container.withPorts(
-          [containerPort.new(
-            name='myPort',
-            port=$._config.ctd_gen.port,
-          )]
-        ),
-      ],
-    ),
+    deployment:
+      deployment.new(
+        name=$._config.ctd_gen.name,
+        replicas=1,
+        containers=[
+          container.new(
+            name=$._config.ctd_gen.name,
+            image='ghcr.io/lolei/%s:%s' % [$._config.ctd_gen.name, $._config.ctd_gen.tag]
+          )
+          // Apparently all ports must have a name in the Grafana wrapper:
+          // https://github.com/grafana/jsonnet-libs/blob/2619bb87ecb336a59616df4c1fe8ced668bdbc94/ksonnet-util/grafana.libsonnet#L6
+          + container.withPorts(
+            [containerPort.new(
+              name='myPort',
+              port=$._config.ctd_gen.port,
+            )]
+          ),
+        ],
+      )
+      + deployment.spec.template.spec.withImagePullSecrets(
+        { name: 'regcred' }
+      ),
     service:
       k.util.serviceFor(self.deployment),
     ingress:
