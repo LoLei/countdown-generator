@@ -20,6 +20,7 @@ import { RiArrowRightCircleLine, RiCheckboxCircleLine } from 'react-icons/ri';
 import { mobileMediaQueryWidth } from '../lib/consts';
 import { callFuncOnKeyPress as callFuncOnKeyPress } from '../lib/ux';
 import { ICountdown } from '../pages/api/countdown';
+import CtdGenButton from './CtdGenButton';
 
 const useStyles = createStyles({
   modalButtonContainer: {
@@ -202,21 +203,17 @@ const CountdownNew = (): JSX.Element => {
         />
         <div className={classes.modalButtonContainer}>
           {!submitted ? (
-            <Button
+            <CtdGenButton
               className={classes.modalButton}
-              variant="light"
-              color="orange"
               disabled={!canSubmit}
               onClick={onSubmitCreation}
             >
               Create
-            </Button>
+            </CtdGenButton>
           ) : (
             <>
-              <Button
+              <CtdGenButton
                 className={classes.modalButton}
-                variant="light"
-                color="orange"
                 onClick={onCopyButtonClick}
                 rightIcon={
                   !linkCopied ? (
@@ -230,8 +227,8 @@ const CountdownNew = (): JSX.Element => {
                 }
               >
                 Copy
-              </Button>
-              <Button
+              </CtdGenButton>
+              <CtdGenButton
                 className={classes.modalButton}
                 variant="light"
                 color="orange"
@@ -244,7 +241,7 @@ const CountdownNew = (): JSX.Element => {
                 }
               >
                 Visit
-              </Button>
+              </CtdGenButton>
             </>
           )}
         </div>
