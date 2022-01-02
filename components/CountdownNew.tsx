@@ -18,6 +18,7 @@ import { AiOutlineCalendar, AiOutlineClockCircle } from 'react-icons/ai';
 import { MdContentCopy } from 'react-icons/md';
 import { RiArrowRightCircleLine, RiCheckboxCircleLine } from 'react-icons/ri';
 import { mobileMediaQueryWidth } from '../lib/consts';
+import { callFuncOnKeyPress as callFuncOnKeyPress } from '../lib/ux';
 import { ICountdown } from '../pages/api/countdown';
 
 const useStyles = createStyles({
@@ -195,6 +196,9 @@ const CountdownNew = (): JSX.Element => {
           invalid={nameError}
           error={nameError && nameErrorMessage}
           disabled={submitted}
+          onKeyDown={(e) =>
+            callFuncOnKeyPress(onSubmitCreation, canSubmit, e.key)
+          }
         />
         <div className={classes.modalButtonContainer}>
           {!submitted ? (
