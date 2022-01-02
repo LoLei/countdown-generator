@@ -197,7 +197,7 @@ const CountdownNew = (): JSX.Element => {
           error={nameError && nameErrorMessage}
           disabled={submitted}
           onKeyDown={(e) =>
-            callFuncOnKeyPress(onSubmitCreation, canSubmit, e.key)
+            callFuncOnKeyPress<void>(onSubmitCreation, canSubmit, e.key)
           }
         />
         <div className={classes.modalButtonContainer}>
