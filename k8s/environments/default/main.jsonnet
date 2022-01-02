@@ -1,11 +1,11 @@
 local k = import 'github.com/grafana/jsonnet-libs/ksonnet-util/kausal.libsonnet';
 
-{
+function(tag=null) {
   _config:: {
     ctd_gen: {
       port: 3000,
       name: 'countdown-generator',
-      tag: '0.0.1',
+      tag: if tag != null then tag else 'latest',
       url: 'countdown.lolei.dev',
     },
   },
