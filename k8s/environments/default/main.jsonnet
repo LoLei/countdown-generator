@@ -11,6 +11,7 @@ local k = import 'github.com/grafana/jsonnet-libs/ksonnet-util/kausal.libsonnet'
     },
   },
 
+  local configMap = k.core.v1.configMap,
   local deployment = k.apps.v1.deployment,
   local container = k.core.v1.container,
   local containerPort = k.core.v1.containerPort,
@@ -21,6 +22,10 @@ local k = import 'github.com/grafana/jsonnet-libs/ksonnet-util/kausal.libsonnet'
   local labels = { name: $._config.ctd_gen.name },
 
   ctd_gen: {
+    configMap: configMap.new(
+      name=$._config.ctd_gen.name,
+      data={ CTD_GEN_DB_LOCATION: '/app/data/countdownDb' }
+    ),
     deployment: deployment.new(
       name=$._config.ctd_gen.name,
       replicas=1,
