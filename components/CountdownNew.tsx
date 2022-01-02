@@ -175,6 +175,7 @@ const CountdownNew = (): JSX.Element => {
           clearable={false}
           icon={<AiOutlineCalendar />}
           dropdownType={isMobile ? 'modal' : 'popover'}
+          disabled={submitted}
         />
         <TimeInput
           value={timeValue}
@@ -185,6 +186,7 @@ const CountdownNew = (): JSX.Element => {
           withSeconds
           invalid={dateError}
           error={dateError && dateErrorMessage}
+          disabled={submitted}
         />
         <TextInput
           placeholder="Countdown name"
@@ -192,6 +194,7 @@ const CountdownNew = (): JSX.Element => {
           onChange={(e) => setName(e.currentTarget.value)}
           invalid={nameError}
           error={nameError && nameErrorMessage}
+          disabled={submitted}
         />
         <div className={classes.modalButtonContainer}>
           {!submitted ? (
