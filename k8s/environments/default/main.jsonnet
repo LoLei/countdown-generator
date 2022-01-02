@@ -3,10 +3,9 @@ local k = import 'github.com/grafana/jsonnet-libs/ksonnet-util/kausal.libsonnet'
 {
   _config:: {
     ctd_gen: {
-      containerPort: 3000,
+      port: 3000,
       name: 'countdown-generator',
       tag: '0.0.1',
-      servicePort: 80,
       url: 'countdown.lolei.dev',
     },
   },
@@ -15,8 +14,6 @@ local k = import 'github.com/grafana/jsonnet-libs/ksonnet-util/kausal.libsonnet'
   local deployment = k.apps.v1.deployment,
   local container = k.core.v1.container,
   local containerPort = k.core.v1.containerPort,
-  local service = k.core.v1.service,
-  local servicePort = k.core.v1.servicePort,
   local ingress = k.networking.v1.ingress,
 
   local labels = { name: $._config.ctd_gen.name },
@@ -38,22 +35,14 @@ local k = import 'github.com/grafana/jsonnet-libs/ksonnet-util/kausal.libsonnet'
         // https://github.com/grafana/jsonnet-libs/blob/2619bb87ecb336a59616df4c1fe8ced668bdbc94/ksonnet-util/grafana.libsonnet#L6
         + container.withPorts(
           [containerPort.new(
-            name='myContainerPort',
-            port=$._config.ctd_gen.containerPort,
+            name='myPort',
+            port=$._config.ctd_gen.port,
           )]
         ),
       ],
     ),
     service:
-      service.new(
-        name=$._config.ctd_gen.name,
-        selector=labels,
-        ports=[servicePort.new(
-          port=$._config.ctd_gen.servicePort,
-          targetPort=$._config.ctd_gen.containerPort,
-        )]
-      )
-      + service.metadata.withLabels(labels),
+      k.util.serviceFor(self.deployment),
     ingress:
       ingress.new(
         name=$._config.ctd_gen.name,
@@ -85,7 +74,7 @@ local k = import 'github.com/grafana/jsonnet-libs/ksonnet-util/kausal.libsonnet'
                     service: {
                       name: $._config.ctd_gen.name,
                       port: {
-                        number: $._config.ctd_gen.servicePort,
+                        number: $._config.ctd_gen.port,
                       },
                     },
                   },
