@@ -16,7 +16,7 @@ import { useRouter } from 'next/router';
 import React, { useEffect, useState } from 'react';
 import { AiOutlineCalendar, AiOutlineClockCircle } from 'react-icons/ai';
 import { MdContentCopy } from 'react-icons/md';
-import { RiArrowRightCircleLine } from 'react-icons/ri';
+import { RiArrowRightCircleLine, RiCheckboxCircleLine } from 'react-icons/ri';
 import { mobileMediaQueryWidth } from '../lib/consts';
 import { ICountdown } from '../pages/api/countdown';
 
@@ -75,6 +75,7 @@ const CountdownNew = (): JSX.Element => {
   const [createdCountdown, setCreatedCountdown] = useState<
     ICountdown | undefined
   >();
+  const [linkCopied, setLinkCopied] = useState<boolean>(false);
   const { classes } = useStyles();
   const router = useRouter();
 
@@ -128,7 +129,8 @@ const CountdownNew = (): JSX.Element => {
   };
 
   const onCopyButtonClick = () => {
-    console.log(createdCountdown?.id);
+    const url = `${window.location.hostname}/countdown/${createdCountdown?.id}`;
+    navigator.clipboard.writeText(url).then(() => setLinkCopied(true));
   };
 
   const onVisitButtonClick = () => {
@@ -152,7 +154,15 @@ const CountdownNew = (): JSX.Element => {
       </Card>
       <Modal
         opened={modalOpen}
-        onClose={() => setModalOpen(false)}
+        onClose={() => {
+          setModalOpen(false);
+          // A small delay so the buttons changing isn't visible
+          // while the close animation is happening
+          setTimeout(() => {
+            setSubmitted(false);
+            setLinkCopied(false);
+          }, 500);
+        }}
         title="Create a new countdown"
         centered
       >
@@ -202,7 +212,14 @@ const CountdownNew = (): JSX.Element => {
                 color="orange"
                 onClick={onCopyButtonClick}
                 rightIcon={
-                  <MdContentCopy className={classes.modalButtonIcon} />
+                  !linkCopied ? (
+                    <MdContentCopy className={classes.modalButtonIcon} />
+                  ) : (
+                    <RiCheckboxCircleLine
+                      className={classes.modalButtonIcon}
+                      size={17}
+                    />
+                  )
                 }
               >
                 Copy
