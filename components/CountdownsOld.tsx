@@ -36,6 +36,7 @@ const CountdownsOld = (): JSX.Element => {
       .then((countdowns: ICountdown[]) => {
         setCountdowns(countdowns);
         countdowns.forEach((it) => {
+          console.log(`Prefetching ${it.id}`);
           router.prefetch(`/countdown/${it.id}`);
         });
       })

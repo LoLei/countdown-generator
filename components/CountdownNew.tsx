@@ -12,18 +12,26 @@ import { DatePicker, TimeInput } from '@mantine/dates';
 import { useMediaQuery } from '@mantine/hooks';
 import dayjs from 'dayjs';
 import { nanoid } from 'nanoid';
+import { useRouter } from 'next/router';
 import React, { useEffect, useState } from 'react';
 import { AiOutlineCalendar, AiOutlineClockCircle } from 'react-icons/ai';
+import { MdContentCopy } from 'react-icons/md';
+import { RiArrowRightCircleLine } from 'react-icons/ri';
 import { mobileMediaQueryWidth } from '../lib/consts';
 import { ICountdown } from '../pages/api/countdown';
 
 const useStyles = createStyles({
-  submitButtonContainer: {
+  modalButtonContainer: {
     width: '100%',
     textAlign: 'center',
   },
-  submitButton: {
+  modalButton: {
     marginTop: '1rem',
+    marginLeft: '0.25rem',
+    marginRight: '0.25rem',
+  },
+  modalButtonIcon: {
+    marginRight: '-0.25rem',
   },
 });
 
@@ -63,7 +71,12 @@ const CountdownNew = (): JSX.Element => {
   const nameErrorMessage = `Name can have a maximum of ${nameMaxLength} characters`;
   const canSubmit = !dateError && !nameError;
   const isMobile = useMediaQuery(`(max-width: ${mobileMediaQueryWidth})`);
+  const [submitted, setSubmitted] = useState<boolean>(false);
+  const [createdCountdown, setCreatedCountdown] = useState<
+    ICountdown | undefined
+  >();
   const { classes } = useStyles();
+  const router = useRouter();
 
   useEffect(() => {
     setDateError(false);
@@ -90,7 +103,7 @@ const CountdownNew = (): JSX.Element => {
   }, [name]);
 
   const onSubmitCreation = async () => {
-    const createdCountdown: ICountdown = {
+    const countdown: ICountdown = {
       // TODO: Check for existing IDs to avoid collision (in backend)
       id: nanoid(6),
       dateCreated: new Date(),
@@ -102,13 +115,24 @@ const CountdownNew = (): JSX.Element => {
     myHeaders.append('Content-Type', 'application/json');
     await fetch('/api/countdown', {
       method: 'POST',
-      body: JSON.stringify(createdCountdown),
+      body: JSON.stringify(countdown),
       headers: myHeaders,
     });
+    setSubmitted(true);
+    setCreatedCountdown(countdown);
+    router.prefetch(`/countdown/${countdown.id}`);
 
     // TODO: Check again if the created countdown is not before the current time,
     //  as the form may have been left idle for a while
     // TODO: Save to DB and redirect to page or show link to page
+  };
+
+  const onCopyButtonClick = () => {
+    console.log(createdCountdown?.id);
+  };
+
+  const onVisitButtonClick = () => {
+    router.push(`/countdown/${createdCountdown?.id}`);
   };
 
   return (
@@ -159,16 +183,46 @@ const CountdownNew = (): JSX.Element => {
           invalid={nameError}
           error={nameError && nameErrorMessage}
         />
-        <div className={classes.submitButtonContainer}>
-          <Button
-            className={classes.submitButton}
-            variant="light"
-            color="orange"
-            disabled={!canSubmit}
-            onClick={onSubmitCreation}
-          >
-            Create
-          </Button>
+        <div className={classes.modalButtonContainer}>
+          {!submitted ? (
+            <Button
+              className={classes.modalButton}
+              variant="light"
+              color="orange"
+              disabled={!canSubmit}
+              onClick={onSubmitCreation}
+            >
+              Create
+            </Button>
+          ) : (
+            <>
+              <Button
+                className={classes.modalButton}
+                variant="light"
+                color="orange"
+                onClick={onCopyButtonClick}
+                rightIcon={
+                  <MdContentCopy className={classes.modalButtonIcon} />
+                }
+              >
+                Copy
+              </Button>
+              <Button
+                className={classes.modalButton}
+                variant="light"
+                color="orange"
+                onClick={onVisitButtonClick}
+                rightIcon={
+                  <RiArrowRightCircleLine
+                    className={classes.modalButtonIcon}
+                    size={17}
+                  />
+                }
+              >
+                Visit
+              </Button>
+            </>
+          )}
         </div>
       </Modal>
     </>

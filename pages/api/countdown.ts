@@ -50,19 +50,8 @@ const saveCountdown = (countdown: ICountdown): ICountdown | undefined => {
   return countdown;
 };
 
-export function getAllCountdownIds() {
-  const data = db.getData('/countdowns') as ICountdown[];
-  const countdowns = Object.values(data).map((it) => it as ICountdown);
-  return countdowns.map((countdown) => {
-    return {
-      params: {
-        id: countdown.id,
-      },
-    };
-  });
-}
-
 export function getCountdownById(id: string): ICountdown | undefined {
+  db.reload();
   try {
     return db.getObject<ICountdown>(`/countdowns/${id}`);
   } catch (e) {
@@ -72,8 +61,8 @@ export function getCountdownById(id: string): ICountdown | undefined {
 }
 
 function getLastNCountdowns(n: number): ICountdown[] {
+  db.reload();
   const data = db.getData(`/countdowns`);
   const countdowns = Object.values(data).map((it) => it as ICountdown);
-  console.log(countdowns);
   return countdowns.slice(n * -1).reverse();
 }

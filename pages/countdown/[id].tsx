@@ -1,15 +1,11 @@
+import { Card, Container, createStyles, Group, Text } from '@mantine/core';
 import { GetServerSidePropsContext } from 'next';
 import Head from 'next/head';
 import React from 'react';
-import {
-  getAllCountdownIds,
-  getCountdownById,
-  ICountdown,
-} from '../api/countdown';
-import { Card, Container, createStyles, Group, Text } from '@mantine/core';
-import { formatDate } from '../../lib/dates';
 import Countdown from 'react-countdown';
 import { MdOutlineCelebration } from 'react-icons/md';
+import { formatDate } from '../../lib/dates';
+import { getCountdownById, ICountdown } from '../api/countdown';
 
 const useStyles = createStyles({
   container: {
@@ -134,17 +130,7 @@ interface IProps {
 
 export default CountdownPage;
 
-export async function getStaticPaths() {
-  // Return a list of possible value for id
-  const paths = getAllCountdownIds();
-  return {
-    paths,
-    fallback: false,
-  };
-}
-
-export async function getStaticProps(context: GetServerSidePropsContext) {
-  // Fetch necessary data for the countdown using params.id
+export async function getServerSideProps(context: GetServerSidePropsContext) {
   const id = context.params?.id;
   if (id == null) {
     return {
