@@ -9,6 +9,7 @@ podman build -f Containerfile -t ghcr.io/lolei/countdown-generator:$TAG .
 podman push ghcr.io/lolei/countdown-generator:$TAG
 
 # Deploy
+cd k8s || exit
 tk show environments/default --tla-str tag=$TAG
 
 read -p "Are you sure? " -n 1 -r
