@@ -50,7 +50,7 @@ function(tag=null) {
           // https://github.com/grafana/jsonnet-libs/blob/2619bb87ecb336a59616df4c1fe8ced668bdbc94/ksonnet-util/grafana.libsonnet#L6
           + container.withPorts(
             [containerPort.new(
-              name='myPort',
+              name='my-port',
               port=$._config.ctdGen.port,
             )]
           )
