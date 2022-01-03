@@ -19,10 +19,11 @@ function(tag=null) {
   local labels = { name: $._config.ctd_gen.name },
 
   ctd_gen: {
-    configMap: configMap.new(
-      name=$._config.ctd_gen.name,
-      data={ CTD_GEN_DB_LOCATION: '/app/data/countdownDb' }
-    ),
+    configMap:
+      configMap.new(
+        name=$._config.ctd_gen.name,
+        data={ CTD_GEN_DB_LOCATION: '/app/data/countdownDb' }
+      ),
     deployment:
       deployment.new(
         name=$._config.ctd_gen.name,
@@ -39,6 +40,11 @@ function(tag=null) {
               name='myPort',
               port=$._config.ctd_gen.port,
             )]
+          )
+          + container.withEnvFrom(
+            [
+              { configMapRef: { name: $.ctd_gen.configMap.metadata.name } },
+            ]
           ),
         ],
       )
