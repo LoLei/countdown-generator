@@ -15,6 +15,7 @@ function(tag=null) {
   local container = k.core.v1.container,
   local containerPort = k.core.v1.containerPort,
   local ingress = k.networking.v1.ingress,
+  local persistentVolumeClaim = k.core.v1.persistentVolumeClaim,
 
   local labels = { name: $._config.ctd_gen.name },
 
@@ -93,6 +94,17 @@ function(tag=null) {
             },
           },
         ]
+      ),
+    persistentVolumeClaim:
+      persistentVolumeClaim.new(
+        name=$._config.ctd_gen.name
+      )
+      + persistentVolumeClaim.spec.withStorageClassName('do-block-storage')
+      + persistentVolumeClaim.spec.withAccessModes(
+        ['ReadWriteOnce']
+      )
+      + persistentVolumeClaim.spec.resources.withRequests(
+        { storage: '1Gi' }
       ),
   },
 }
