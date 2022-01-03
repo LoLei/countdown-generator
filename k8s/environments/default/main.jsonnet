@@ -8,14 +8,17 @@ function(tag=null) {
       tag: if tag != null then tag else 'latest',
       url: 'countdown.lolei.dev',
       volumeMountPath: '/app/data',
-      volumeName: 'db-volume',
-      configMapName: '%s-cm' % self.name,
-      deploymentName: '%s-depl' % self.name,
-      containerName: '%s-cont' % self.name,
-      serviceName: '%s-svc' % self.name,
-      ingressName: '%s-ing' % self.name,
-      certSecretName: '%s-cert' % self.name,
-      pvcName: '%s-pvc' % self.name,
+      local nameRef = self.name,
+      names: {
+        volume: 'db-volume',
+        configMap: '%s-cm' % nameRef,
+        deployment: '%s-depl' % nameRef,
+        container: '%s-cont' % nameRef,
+        service: '%s-svc' % nameRef,
+        ingress: '%s-ing' % nameRef,
+        certSecret: '%s-cert' % nameRef,
+        pvc: '%s-pvc' % nameRef,
+      },
     },
   },
 
@@ -31,16 +34,16 @@ function(tag=null) {
   ctdGen: {
     configMap:
       configMap.new(
-        name=$._config.ctdGen.configMapName,
+        name=$._config.ctdGen.names.configMap,
         data={ CTD_GEN_DB_LOCATION: '%s/countdownDb' % $._config.ctdGen.volumeMountPath }
       ),
     deployment:
       deployment.new(
-        name=$._config.ctdGen.deploymentName,
+        name=$._config.ctdGen.names.deployment,
         replicas=1,
         containers=[
           container.new(
-            name=$._config.ctdGen.containerName,
+            name=$._config.ctdGen.names.container,
             image='ghcr.io/lolei/%s:%s' % [$._config.ctdGen.name, $._config.ctdGen.tag]
           )
           // Apparently all ports must have a name in the Grafana wrapper:
@@ -57,7 +60,7 @@ function(tag=null) {
           + container.withVolumeMounts([
             {
               mountPath: $._config.ctdGen.volumeMountPath,
-              name: $._config.ctdGen.volumeName,
+              name: $._config.ctdGen.names.volume,
             },
           ]),
         ],
@@ -68,18 +71,18 @@ function(tag=null) {
       + deployment.spec.template.spec.withVolumes(
         [
           {
-            name: $._config.ctdGen.volumeName,
-            persistentVolumeClaim: { claimName: $._config.ctdGen.pvcName },
+            name: $._config.ctdGen.names.volume,
+            persistentVolumeClaim: { claimName: $._config.ctdGen.names.pvc },
           },
 
         ]
       ),
     service:
       k.util.serviceFor(self.deployment)
-      + service.metadata.withName($._config.ctdGen.serviceName),
+      + service.metadata.withName($._config.ctdGen.names.service),
     ingress:
       ingress.new(
-        name=$._config.ctdGen.ingressName,
+        name=$._config.ctdGen.names.ingress,
       )
       + ingress.metadata.withAnnotations(
         {
@@ -91,7 +94,7 @@ function(tag=null) {
         [
           {
             hosts: [$._config.ctdGen.url],
-            secretName: $._config.ctdGen.certSecretName,
+            secretName: $._config.ctdGen.names.certSecret,
           },
         ]
       )
@@ -106,7 +109,7 @@ function(tag=null) {
                   pathType: 'Prefix',
                   backend: {
                     service: {
-                      name: $._config.ctdGen.serviceName,
+                      name: $._config.ctdGen.names.service,
                       port: {
                         number: $._config.ctdGen.port,
                       },
@@ -120,7 +123,7 @@ function(tag=null) {
       ),
     persistentVolumeClaim:
       persistentVolumeClaim.new(
-        name=$._config.ctdGen.pvcName
+        name=$._config.ctdGen.names.pvc
       )
       + persistentVolumeClaim.spec.withStorageClassName('do-block-storage')
       + persistentVolumeClaim.spec.withAccessModes(
