@@ -2,7 +2,7 @@ local k = import 'github.com/grafana/jsonnet-libs/ksonnet-util/kausal.libsonnet'
 
 function(tag=null) {
   _config:: {
-    ctd_gen: {
+    ctdGen: {
       port: 3000,
       name: 'countdown-generator',
       tag: if tag != null then tag else 'latest',
@@ -28,36 +28,36 @@ function(tag=null) {
   local persistentVolumeClaim = k.core.v1.persistentVolumeClaim,
   local envFromSource = k.core.v1.envFromSource,
 
-  ctd_gen: {
+  ctdGen: {
     configMap:
       configMap.new(
-        name=$._config.ctd_gen.configMapName,
-        data={ CTD_GEN_DB_LOCATION: '%s/countdownDb' % $._config.ctd_gen.volumeMountPath }
+        name=$._config.ctdGen.configMapName,
+        data={ CTD_GEN_DB_LOCATION: '%s/countdownDb' % $._config.ctdGen.volumeMountPath }
       ),
     deployment:
       deployment.new(
-        name=$._config.ctd_gen.deploymentName,
+        name=$._config.ctdGen.deploymentName,
         replicas=1,
         containers=[
           container.new(
-            name=$._config.ctd_gen.containerName,
-            image='ghcr.io/lolei/%s:%s' % [$._config.ctd_gen.name, $._config.ctd_gen.tag]
+            name=$._config.ctdGen.containerName,
+            image='ghcr.io/lolei/%s:%s' % [$._config.ctdGen.name, $._config.ctdGen.tag]
           )
           // Apparently all ports must have a name in the Grafana wrapper:
           // https://github.com/grafana/jsonnet-libs/blob/2619bb87ecb336a59616df4c1fe8ced668bdbc94/ksonnet-util/grafana.libsonnet#L6
           + container.withPorts(
             [containerPort.new(
               name='myPort',
-              port=$._config.ctd_gen.port,
+              port=$._config.ctdGen.port,
             )]
           )
           + container.withEnvFrom(
-            envFromSource.configMapRef.withName($.ctd_gen.configMap.metadata.name)
+            envFromSource.configMapRef.withName($.ctdGen.configMap.metadata.name)
           )
           + container.withVolumeMounts([
             {
-              mountPath: $._config.ctd_gen.volumeMountPath,
-              name: $._config.ctd_gen.volumeName,
+              mountPath: $._config.ctdGen.volumeMountPath,
+              name: $._config.ctdGen.volumeName,
             },
           ]),
         ],
@@ -68,18 +68,18 @@ function(tag=null) {
       + deployment.spec.template.spec.withVolumes(
         [
           {
-            name: $._config.ctd_gen.volumeName,
-            persistentVolumeClaim: { claimName: $._config.ctd_gen.pvcName },
+            name: $._config.ctdGen.volumeName,
+            persistentVolumeClaim: { claimName: $._config.ctdGen.pvcName },
           },
 
         ]
       ),
     service:
       k.util.serviceFor(self.deployment)
-      + service.metadata.withName($._config.ctd_gen.serviceName),
+      + service.metadata.withName($._config.ctdGen.serviceName),
     ingress:
       ingress.new(
-        name=$._config.ctd_gen.ingressName,
+        name=$._config.ctdGen.ingressName,
       )
       + ingress.metadata.withAnnotations(
         {
@@ -90,15 +90,15 @@ function(tag=null) {
       + ingress.spec.withTls(
         [
           {
-            hosts: [$._config.ctd_gen.url],
-            secretName: $._config.ctd_gen.certSecretName,
+            hosts: [$._config.ctdGen.url],
+            secretName: $._config.ctdGen.certSecretName,
           },
         ]
       )
       + ingress.spec.withRules(
         [
           {
-            host: $._config.ctd_gen.url,
+            host: $._config.ctdGen.url,
             http: {
               paths: [
                 {
@@ -106,9 +106,9 @@ function(tag=null) {
                   pathType: 'Prefix',
                   backend: {
                     service: {
-                      name: $._config.ctd_gen.serviceName,
+                      name: $._config.ctdGen.serviceName,
                       port: {
-                        number: $._config.ctd_gen.port,
+                        number: $._config.ctdGen.port,
                       },
                     },
                   },
@@ -120,7 +120,7 @@ function(tag=null) {
       ),
     persistentVolumeClaim:
       persistentVolumeClaim.new(
-        name=$._config.ctd_gen.pvcName
+        name=$._config.ctdGen.pvcName
       )
       + persistentVolumeClaim.spec.withStorageClassName('do-block-storage')
       + persistentVolumeClaim.spec.withAccessModes(
