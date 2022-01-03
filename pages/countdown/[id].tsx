@@ -138,7 +138,7 @@ const CountdownPage = (props: IProps): JSX.Element => {
               <Text>Due at: {formatDate(props.countdown.dateDue)}</Text>
             </Group>
           </Card>
-          <Card padding="xs">
+          <Card shadow="sm" padding="xs">
             <Group position="center" direction="row" spacing="xs">
               <Countdown
                 date={props.countdown.dateDue}
