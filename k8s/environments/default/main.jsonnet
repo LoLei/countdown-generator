@@ -7,6 +7,8 @@ function(tag=null) {
       name: 'countdown-generator',
       tag: if tag != null then tag else 'latest',
       url: 'countdown.lolei.dev',
+      volumeMountPath: '/app/data',
+      volumeName: 'db-volume',
     },
   },
 
@@ -24,7 +26,7 @@ function(tag=null) {
     configMap:
       configMap.new(
         name=$._config.ctd_gen.name,
-        data={ CTD_GEN_DB_LOCATION: '/app/data/countdownDb' }
+        data={ CTD_GEN_DB_LOCATION: '%s/countdownDb' % $._config.ctd_gen.volumeMountPath }
       ),
     deployment:
       deployment.new(
@@ -45,11 +47,26 @@ function(tag=null) {
           )
           + container.withEnvFrom(
             envFromSource.configMapRef.withName($.ctd_gen.configMap.metadata.name)
-          ),
+          )
+          + container.withVolumeMounts([
+            {
+              mountPath: $._config.ctd_gen.volumeMountPath,
+              name: $._config.ctd_gen.volumeName,
+            },
+          ]),
         ],
       )
       + deployment.spec.template.spec.withImagePullSecrets(
         { name: 'regcred' }
+      )
+      + deployment.spec.template.spec.withVolumes(
+        [
+          {
+            name: $._config.ctd_gen.volumeName,
+            persistentVolumeClaim: { claimName: $._config.ctd_gen.name },
+          },
+
+        ]
       ),
     service:
       k.util.serviceFor(self.deployment),
