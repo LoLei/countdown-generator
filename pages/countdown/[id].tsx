@@ -14,6 +14,16 @@ const useStyles = createStyles({
   completionIcon: {
     transform: 'translateY(0.125rem)',
   },
+  countdownPartText: {
+    fontFamily: 'Roboto Mono, monospace',
+  },
+  get countdownPartTextColon() {
+    return {
+      fontFamily: this.countdownPartText.fontFamily,
+      marginLeft: '-0.25rem',
+      marginRight: '-0.25rem',
+    };
+  },
 });
 
 const Completionist = () => {
@@ -26,11 +36,20 @@ const Completionist = () => {
   );
 };
 
-const CountdownPartText = ({ children }: { children: React.ReactNode }) => {
+const CountdownPartText = ({
+  children,
+  colon,
+}: {
+  children: React.ReactNode;
+  colon?: boolean;
+}) => {
+  const { classes } = useStyles();
   return (
     <Text
-      size="xl"
-      style={{ fontFamily: 'Roboto Mono, monospace' }}
+      className={
+        !colon ? classes.countdownPartText : classes.countdownPartTextColon
+      }
+      size={!colon ? 'xl' : 'lg'}
       weight={700}
     >
       {children}
@@ -51,14 +70,23 @@ const CountdownRenderer = ({
   seconds: number;
   completed: boolean;
 }) => {
+  const Colon = () => <CountdownPartText colon={true}>:</CountdownPartText>;
+
   if (completed) {
     return <Completionist />;
   } else {
     return (
       <>
-        {days > 0 && <CountdownPartText>{days}d </CountdownPartText>}
-        {<CountdownPartText>{hours}h </CountdownPartText>}
-        {<CountdownPartText>{minutes}m </CountdownPartText>}
+        {days > 0 && (
+          <>
+            <CountdownPartText>{days}d</CountdownPartText>
+            <Colon />
+          </>
+        )}
+        {<CountdownPartText>{hours}h</CountdownPartText>}
+        <Colon />
+        {<CountdownPartText>{minutes}m</CountdownPartText>}
+        <Colon />
         {<CountdownPartText>{seconds}s</CountdownPartText>}
       </>
     );
