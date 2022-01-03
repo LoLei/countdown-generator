@@ -76,7 +76,8 @@ function(tag=null) {
           },
 
         ]
-      ),
+      )
+      + deployment.spec.template.spec.securityContext.withFsGroup(1001),
     service:
       k.util.serviceFor(self.deployment)
       + service.metadata.withName($._config.ctdGen.names.service),
