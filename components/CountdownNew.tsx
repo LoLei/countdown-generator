@@ -144,7 +144,9 @@ const CountdownNew = (): JSX.Element => {
       <Card shadow="sm" padding="sm">
         <Group position="center" direction="column" spacing="xs">
           <Title order={4}>New Countdown</Title>
-          <Text>Create a new countdown which is saved and can be shared.</Text>
+          <Text align="center">
+            Create a new countdown which is saved and can be shared.
+          </Text>
           <Button
             variant="gradient"
             gradient={{ from: 'orange', to: 'red' }}
