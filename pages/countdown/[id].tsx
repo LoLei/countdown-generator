@@ -20,8 +20,8 @@ const useStyles = createStyles({
   get countdownPartTextColon() {
     return {
       fontFamily: this.countdownPartText.fontFamily,
-      marginLeft: '-0.25rem',
-      marginRight: '-0.25rem',
+      marginLeft: '-0.5rem',
+      marginRight: '-0.5rem',
     };
   },
 });
@@ -49,7 +49,7 @@ const CountdownPartText = ({
       className={
         !colon ? classes.countdownPartText : classes.countdownPartTextColon
       }
-      size={!colon ? 'xl' : 'lg'}
+      size={!colon ? 'xl' : 'md'}
       weight={700}
     >
       {children}
