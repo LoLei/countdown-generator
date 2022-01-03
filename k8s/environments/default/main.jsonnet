@@ -16,6 +16,7 @@ function(tag=null) {
   local containerPort = k.core.v1.containerPort,
   local ingress = k.networking.v1.ingress,
   local persistentVolumeClaim = k.core.v1.persistentVolumeClaim,
+  local envFromSource = k.core.v1.envFromSource,
 
   local labels = { name: $._config.ctd_gen.name },
 
@@ -43,9 +44,7 @@ function(tag=null) {
             )]
           )
           + container.withEnvFrom(
-            [
-              { configMapRef: { name: $.ctd_gen.configMap.metadata.name } },
-            ]
+            envFromSource.configMapRef.withName($.ctd_gen.configMap.metadata.name)
           ),
         ],
       )
