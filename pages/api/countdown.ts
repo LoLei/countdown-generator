@@ -1,3 +1,5 @@
+import { count } from 'console';
+import dayjs from 'dayjs';
 import type { NextApiRequest, NextApiResponse } from 'next';
 import db from '../../db/db';
 
@@ -10,7 +12,7 @@ export interface ICountdown {
 
 export default function handler(
   req: NextApiRequest,
-  res: NextApiResponse<ICountdown | ICountdown[]>
+  res: NextApiResponse<ICountdown | ICountdown[] | undefined>
 ) {
   if (req.method === 'POST') {
     // Create/save a countdown
@@ -19,6 +21,8 @@ export default function handler(
     if (countdownCreated != null) {
       console.log(`Created countdown with ID ${countdownCreated.id}`);
       res.status(200).json(countdownCreated);
+    } else {
+      res.status(400).send(undefined);
     }
   } else if (req.method === 'GET') {
     if (req.query.id != null) {
@@ -29,7 +33,7 @@ export default function handler(
         console.log(`Retrieved countdown with ID ${countdown.id}`);
         res.status(200).json(countdown);
       } else {
-        res.status(400);
+        res.status(404).send(undefined);
       }
     } else {
       // Get the last n countdowns
@@ -45,7 +49,25 @@ export default function handler(
 }
 
 const saveCountdown = (countdown: ICountdown): ICountdown | undefined => {
-  // TODO: Check constraints: Name length, dateDue before dateCreate, ID does not exist
+  // Check constraints that should also be validated on the frontend,
+  // but need to be checked here again in case the API itself is used.
+
+  // Check name length
+  const maxLength = 75;
+  if (countdown.name && countdown.name?.length > maxLength) {
+    return undefined;
+  }
+
+  // Check due date is not before creation date
+  if (dayjs(countdown.dateDue).isBefore(countdown.dateCreated)) {
+    return undefined;
+  }
+
+  // Check ID does not already exist
+  if (db.exists(`/countdowns/${countdown.id}`)) {
+    return undefined;
+  }
+
   db.push(`/countdowns/${countdown.id}`, countdown);
   return countdown;
 };
