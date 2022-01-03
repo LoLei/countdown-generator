@@ -131,7 +131,7 @@ const CountdownNew = (): JSX.Element => {
   };
 
   const onCopyButtonClick = () => {
-    const url = `${window.location.hostname}/countdown/${createdCountdown?.id}`;
+    const url = `https://${window.location.hostname}/countdown/${createdCountdown?.id}`;
     navigator.clipboard.writeText(url).then(() => setLinkCopied(true));
   };
 
