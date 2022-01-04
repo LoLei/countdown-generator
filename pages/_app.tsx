@@ -3,6 +3,7 @@ import type { AppProps } from 'next/app';
 import React from 'react';
 import Layout from '../components/Layout';
 import Head from 'next/head';
+import '../styles/globals.css';
 
 function MyApp({ Component, pageProps }: AppProps) {
   return (
@@ -20,7 +21,7 @@ function MyApp({ Component, pageProps }: AppProps) {
         theme={{
           // Override any other properties from default theme
           fontFamily: 'Roboto, Open Sans, DejaVu Sans, sans serif',
-          fontFamilyMonospace: 'Monaco, Courier, monospace',
+          fontFamilyMonospace: 'Roboto Mono, Monaco, Courier, monospace',
           fontSizes: { lg: 24, xl: 30 },
           headings: { fontFamily: 'Roboto Condensed, sans-serif' },
           spacing: { xs: 15, sm: 20, md: 25, lg: 30, xl: 40 },
