@@ -8,7 +8,7 @@ import { IoHourglassOutline } from 'react-icons/io5';
 import { mobileMediaQueryWidth } from '../lib/consts';
 import { formatDate } from '../lib/dates';
 import { getTruncatedString } from '../lib/strings';
-import { ICountdown } from '../pages/api/countdown';
+import { ICountdown } from '../types/types';
 
 const useStyles = createStyles({
   titleOld: {
@@ -31,12 +31,12 @@ const CountdownsOld = (): JSX.Element => {
     // Since next/link does not work well with an entire table row,
     // prefetch the resources here so they are already loaded when
     // router.push is called
-    fetch('/api/countdown') // Gets the last n countdowns
+    fetch('/api/countdowns') // Gets the last n countdowns
       .then((r) => r.json())
       .then((countdowns: ICountdown[]) => {
         setCountdowns(countdowns);
         countdowns.forEach((it) => {
-          router.prefetch(`/countdown/${it.id}`);
+          router.prefetch(`/${it.id}`);
         });
       })
       .catch((e) => console.error(e));
@@ -66,7 +66,7 @@ const CountdownsOld = (): JSX.Element => {
               <tr
                 key={idx}
                 className={classes.tableDataRow}
-                onClick={() => router.push(`/countdown/${it.id}`)}
+                onClick={() => router.push(`/${it.id}`)}
               >
                 <td>
                   {it.name

@@ -4,8 +4,9 @@ import Head from 'next/head';
 import React from 'react';
 import Countdown from 'react-countdown';
 import { MdOutlineCelebration } from 'react-icons/md';
-import { formatDate } from '../../lib/dates';
-import { getCountdownById, ICountdown } from '../api/countdown';
+import { formatDate } from '../lib/dates';
+import { ICountdown } from '../types/types';
+import { getCountdownById } from './api/id';
 
 const useStyles = createStyles({
   container: {

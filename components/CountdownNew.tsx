@@ -19,7 +19,7 @@ import { MdContentCopy } from 'react-icons/md';
 import { RiArrowRightCircleLine, RiCheckboxCircleLine } from 'react-icons/ri';
 import { mobileMediaQueryWidth } from '../lib/consts';
 import { callFuncOnKeyPress as callFuncOnKeyPress } from '../lib/ux';
-import { ICountdown } from '../pages/api/countdown';
+import { ICountdown } from '../types/types';
 import CtdGenButton from './CtdGenButton';
 
 const useStyles = createStyles({
@@ -107,7 +107,6 @@ const CountdownNew = (): JSX.Element => {
 
   const onSubmitCreation = async () => {
     const countdown: ICountdown = {
-      // TODO: Check for existing IDs to avoid collision (in backend)
       id: nanoid(6),
       dateCreated: new Date(),
       dateDue: combinedDueDate!,
@@ -123,7 +122,7 @@ const CountdownNew = (): JSX.Element => {
     });
     setSubmitted(true);
     setCreatedCountdown(countdown);
-    router.prefetch(`/countdown/${countdown.id}`);
+    router.prefetch(`/${countdown.id}`);
 
     // TODO: Check again if the created countdown is not before the current time,
     //  as the form may have been left idle for a while
@@ -131,12 +130,12 @@ const CountdownNew = (): JSX.Element => {
   };
 
   const onCopyButtonClick = () => {
-    const url = `https://${window.location.hostname}/countdown/${createdCountdown?.id}`;
+    const url = `https://${window.location.hostname}/${createdCountdown?.id}`;
     navigator.clipboard.writeText(url).then(() => setLinkCopied(true));
   };
 
   const onVisitButtonClick = () => {
-    router.push(`/countdown/${createdCountdown?.id}`);
+    router.push(`/${createdCountdown?.id}`);
   };
 
   return (

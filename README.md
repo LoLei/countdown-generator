@@ -26,7 +26,7 @@ indefinitely.
 This app is built with:
 
 - [Next.js](https://nextjs.org/)
-  - Utilizing dynamic page routes, data prefetching, and API routes, i.e. backend and frontend
+  - Utilizing dynamic page routes, data fetching, and API routes, i.e. backend and frontend
 - [node-json-db](https://www.npmjs.com/package/node-json-db)
   - Basically just a JSON file
 - [mantine.dev](https://mantine.dev/)
