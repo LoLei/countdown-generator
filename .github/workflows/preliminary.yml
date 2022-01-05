@@ -8,25 +8,8 @@ on:
 
 jobs:
   preliminary-checks:
-    runs-on: ubuntu-latest
-
-    steps:
-      - uses: actions/checkout@v2
-      - uses: actions/setup-node@v2
-        with:
-          node-version: '14.18.2'
-
-      - name: Install dependencies
-        run: yarn install
-
-      - name: Check formatting
-        run: yarn fmt:check
-
-      - name: Lint via eslint
-        run: yarn lint
-
-      - name: Build project
-        run: yarn build
-
-      - name: Run tests
-        run: echo "No tests so far" || yarn test:unit-ci
+    uses: LoLei/util/.github/workflows/yarn-preliminary.yml@main
+    with:
+      node-version: '14.18.2'
+      format: true
+      lint: true
