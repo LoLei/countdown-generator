@@ -1,6 +1,6 @@
 #!/bin/sh
 
-TAG=0.1.5
+TAG=0.2.0
 
 # Build
 podman build -f Containerfile -t ghcr.io/lolei/countdown-generator:$TAG .
