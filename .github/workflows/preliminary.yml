@@ -19,8 +19,8 @@ jobs:
       - name: Install dependencies
         run: yarn install
 
-      - name: Lint via prettier
-        run: yarn pretty:check
+      - name: Check formatting
+        run: yarn fmt:check
 
       - name: Lint via eslint
         run: yarn lint
@@ -28,5 +28,5 @@ jobs:
       - name: Build project
         run: yarn build
 
-      - name: Test via jest
+      - name: Run tests
         run: echo "No tests so far" || yarn test:unit-ci
