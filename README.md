@@ -46,4 +46,3 @@ This app came into being when I wanted to share a countdown to a single
 timestamp. I specifically did not look up potential existing apps that offer
 this functionality since I figured this would be a nice holiday project to
 occupy some time.
-
