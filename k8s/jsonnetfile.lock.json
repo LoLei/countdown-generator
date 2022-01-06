@@ -4,11 +4,21 @@
     {
       "source": {
         "git": {
+          "remote": "https://github.com/LoLei/util.git",
+          "subdir": "jsonnet"
+        }
+      },
+      "version": "1b5fb85913cc543a45d1af7163a87db9d043f40f",
+      "sum": "it9SVRKnvCHsJoofTi1u0ovDAU7ZeSUhADhGQpKM14U="
+    },
+    {
+      "source": {
+        "git": {
           "remote": "https://github.com/grafana/jsonnet-libs.git",
           "subdir": "ksonnet-util"
         }
       },
-      "version": "264a5c2078c5930af57fe2d107eff83ab63553af",
+      "version": "b46355107c024e0aa4932adadd939294c3b8260d",
       "sum": "JDsc/bUs5Yv1RkGKcm0hMteqCKZqemxA3qP6eiEATr8="
     },
     {

@@ -1,3 +1,4 @@
+local util = import 'github.com/LoLei/util/jsonnet/main.libsonnet';
 local k = import 'github.com/grafana/jsonnet-libs/ksonnet-util/kausal.libsonnet';
 
 function(tag=null) {
@@ -6,7 +7,7 @@ function(tag=null) {
       port: 3000,
       name: 'countdown-generator',
       tag: if tag != null then tag else 'latest',
-      url: 'countdown.lolei.dev',
+      domain: 'countdown.lolei.dev',
       volumeMountPath: '/app/data',
       local nameRef = self.name,
       names: {
@@ -82,46 +83,16 @@ function(tag=null) {
       k.util.serviceFor(self.deployment)
       + service.metadata.withName($._config.ctdGen.names.service),
     ingress:
-      ingress.new(
+      util.ingressFor(
         name=$._config.ctdGen.names.ingress,
+        targetService=self.service,
+        domain=$._config.ctdGen.domain,
+        tlsSecretName=$._config.ctdGen.names.certSecret,
       )
-      + ingress.metadata.withAnnotations(
-        {
-          'kubernetes.io/ingress.class': 'nginx',
-          'cert-manager.io/cluster-issuer': 'letsencrypt-prod',
-        }
-      )
-      + ingress.spec.withTls(
-        [
-          {
-            hosts: [$._config.ctdGen.url],
-            secretName: $._config.ctdGen.names.certSecret,
-          },
-        ]
-      )
-      + ingress.spec.withRules(
-        [
-          {
-            host: $._config.ctdGen.url,
-            http: {
-              paths: [
-                {
-                  path: '/',
-                  pathType: 'Prefix',
-                  backend: {
-                    service: {
-                      name: $._config.ctdGen.names.service,
-                      port: {
-                        number: $._config.ctdGen.port,
-                      },
-                    },
-                  },
-                },
-              ],
-            },
-          },
-        ]
-      ),
+      + ingress.metadata.withAnnotationsMixin({
+        'kubernetes.io/ingress.class': 'nginx',
+        'cert-manager.io/cluster-issuer': 'letsencrypt-prod',
+      }),
     persistentVolumeClaim:
       persistentVolumeClaim.new(
         name=$._config.ctdGen.names.pvc

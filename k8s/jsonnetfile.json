@@ -18,6 +18,15 @@
         }
       },
       "version": "main"
+    },
+    {
+      "source": {
+        "git": {
+          "remote": "https://github.com/LoLei/util.git",
+          "subdir": "jsonnet"
+        }
+      },
+      "version": "main"
     }
   ],
   "legacyImports": true
